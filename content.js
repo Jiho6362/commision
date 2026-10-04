@@ -30,19 +30,19 @@ window.CONTENT = {
     {
       youtube: "https://www.youtube.com/watch?v=q47rMI-Slkw",
       title: "포레님 쇼케이스",
-      category: "A타입",
+      category: "Light",
       credit: `리깅: 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=zzmy8eCx-O4",
       title: "훼시",
-      category: "B타입",
+      category: "Standard",
       credit: `리깅: 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
       title: "작련",
-      category: "C타입",
+      category: "Premium",
       credit: `리깅: 4ki`,
     },
     {
@@ -59,16 +59,17 @@ window.CONTENT = {
   */
   price: {
     options: [
-      { name: "A타입",    price: "000,000원", description: `A타입 설명을 적어주세요.` },
-      { name: "B타입",    price: "000,000원", description: `B타입 설명을 적어주세요.` },
-      { name: "C타입",    price: "000,000원", description: `C타입 설명을 적어주세요.` },
+      { name: "Light",    price: "000,000원", description: `Light 설명을 적어주세요.` },
+      { name: "Standard", price: "000,000원", description: `Standard 설명을 적어주세요.` },
+      { name: "Premium",  price: "000,000원", description: `Premium 설명을 적어주세요.` },
       { name: "월페이퍼", price: "000,000원", description: `월페이퍼 설명을 적어주세요.` },
     ],
     rows: [
-      { label: "기본 표정 수",  values: ["-", "-", "-", "-"] },
-      { label: "머리카락 물리", values: ["-", "-", "-", "-"] },
-      { label: "수정 횟수",     values: ["-", "-", "-", "-"] },
-      { label: "작업 기간",     values: ["-", "-", "-", "-"] },
+      { label: "기본 움직임",   values: ["-", "-", "-", "-"] },
+      { label: "표정 작업",     values: ["-", "-", "-", "-"] },
+      { label: "볼 부풀리기",   values: ["-", "-", "-", "-"] },
+      { label: "입 삐죽이기",   values: ["-", "-", "-", "-"] },
+      { label: "VBridger",      values: ["-", "-", "-", "-"] },
     ],
     notices: [
       "리깅용 파츠 분리가 완료된 PSD 파일이 필요합니다.",
@@ -87,7 +88,7 @@ window.CONTENT = {
     guide: `아래 양식을 작성한 뒤 복사해서 아트머그 신청서에 붙여 넣어 주세요.`,
     fields: [
       { label: "닉네임",          placeholder: "닉네임을 적어 주세요" },
-      { label: "신청 옵션",       options: ["A타입", "B타입", "C타입", "월페이퍼"] },
+      { label: "신청 옵션",       options: ["Light", "Standard", "Premium", "월페이퍼"] },
       { label: "모델 용도",       options: ["방송용", "개인 소장", "상업적 이용"] },
       { label: "PSD 파츠 분리",   options: ["완료", "미완료"] },
       { label: "희망 마감일",     placeholder: "예) 2026.12.31 / 협의 가능" },

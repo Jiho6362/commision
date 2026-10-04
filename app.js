@@ -25,6 +25,7 @@
   var about = C.about || {};
   var works = C.works || [];
   var price = C.price || {};
+  var collabs = C.collabs || [];
   var options = price.options || [];
   var apply = C.apply || {};
   var fields = apply.fields || [];
@@ -73,6 +74,21 @@
       '<span class="card-info"><span class="badge">' + esc(w.category) + '</span>' +
       '<span class="card-title">' + esc(w.title) + '</span></span></button>';
   }).join('') + '</div><div class="pager" id="pager"></div></section>';
+
+  // Collaboration: 옆으로 넘기는 카드
+  if (collabs.length) {
+    html += '<section class="section" id="collab"><h2 class="title serif">Collaboration</h2>' +
+      '<div class="collab"><button type="button" class="collab-nav prev" aria-label="이전">‹</button>' +
+      '<div class="collab-track">' + collabs.map(function (a) {
+        return '<div class="collab-card">' +
+          (a.image
+            ? '<img class="collab-img" src="' + esc(a.image) + '" alt="">'
+            : '<span class="collab-img serif">' + esc(String(a.name || '').charAt(0)) + '</span>') +
+          '<b class="serif">' + esc(a.name) + '</b>' +
+          (a.role ? '<span class="collab-role">' + esc(a.role) + '</span>' : '') + '</div>';
+      }).join('') + '</div>' +
+      '<button type="button" class="collab-nav next" aria-label="다음">›</button></div></section>';
+  }
 
   // 3. Price
   html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
@@ -271,6 +287,24 @@
     });
   });
   showWorks();
+
+  // Collaboration 화살표: 한 화면만큼 넘기고, 끝에 닿으면 비활성
+  var track = app.querySelector('.collab-track');
+  if (track) {
+    var prev = app.querySelector('.collab-nav.prev');
+    var next = app.querySelector('.collab-nav.next');
+    var updateNav = function () {
+      var max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      track.parentNode.classList.toggle('fits', max <= 2);
+    };
+    prev.addEventListener('click', function () { track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }); setTimeout(updateNav, 500); });
+    next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); setTimeout(updateNav, 500); });
+    track.addEventListener('scroll', updateNav);
+    window.addEventListener('resize', updateNav);
+    updateNav();
+  }
 
   // 작업물 상세 창
   var modal = document.getElementById('modal');

@@ -78,6 +78,20 @@ Rigged by 4ki`,
     },
   ],
 
+  /* ===================== Collaboration =====================
+     함께 작업한 아티스트. 블록을 복사해서 추가
+     - image: 프로필 이미지 (images 폴더의 파일 또는 https:// 링크). 비워두면 이름 첫 글자가 표시됩니다.
+     - role:  이름 아래 작은 태그
+  */
+  collabs: [
+    { name: "하리",    role: "일러스트", image: "" },
+    { name: "나에",    role: "일러스트", image: "" },
+    { name: "수선화",  role: "일러스트", image: "" },
+    { name: "259万",   role: "일러스트", image: "" },
+    { name: "Haruri",  role: "일러스트", image: "" },
+    { name: "광태",    role: "일러스트", image: "" },
+  ],
+
   /* ===================== 3. Price =====================
      options: 가격표의 열 (옵션 이름, 가격, 설명)
      rows:    가격표의 행. values 는 options 순서대로 적기 (포함 ○ / 미포함 ✕ / 해당 없음 -)

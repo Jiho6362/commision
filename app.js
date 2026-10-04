@@ -81,7 +81,11 @@
     '</tr></thead><tbody>' +
     (price.rows || []).map(function (r) {
       return '<tr><th>' + esc(r.label) + '</th>' +
-        options.map(function (_, j) { return '<td>' + esc((r.values || [])[j]) + '</td>'; }).join('') + '</tr>';
+        options.map(function (_, j) {
+          var v = String((r.values || [])[j] == null ? '' : r.values[j]).trim();
+          var cls = v === '○' || v.toUpperCase() === 'O' ? ' class="yes"' : v === '✕' || v.toUpperCase() === 'X' ? ' class="no"' : '';
+          return '<td' + cls + '>' + esc(v) + '</td>';
+        }).join('') + '</tr>';
     }).join('') +
     '<tr class="price-row"><th>가격</th>' +
     options.map(function (o) { return '<td>' + esc(o.price) + '</td>'; }).join('') +

@@ -55,7 +55,7 @@ window.CONTENT = {
 
   /* ===================== 3. Price =====================
      options: 가격표의 열 (옵션 이름, 가격, 설명)
-     rows:    가격표의 행. values 는 options 순서대로 적기
+     rows:    가격표의 행. values 는 options 순서대로 적기 (포함 ○ / 미포함 ✕ / 해당 없음 -)
   */
   price: {
     options: [
@@ -65,10 +65,10 @@ window.CONTENT = {
       { name: "Wallpaper", price: "200,000원", description: `Wallpaper 설명을 적어주세요.` },
     ],
     rows: [
-      { label: "기본 움직임",   values: ["-", "-", "-", "-"] },
-      { label: "표정 작업",     values: ["-", "-", "-", "-"] },
-      { label: "볼 부풀리기 · 입 삐죽이기", values: ["-", "-", "-", "-"] },
-      { label: "VBridger",      values: ["-", "-", "-", "-"] },
+      { label: "기본 움직임",   values: ["○", "○", "○", "○"] },
+      { label: "표정 작업",     values: ["2개", "3개", "5개", "-"] },
+      { label: "볼 부풀리기 · 입 삐죽이기", values: ["✕", "○", "○", "-"] },
+      { label: "VBridger",      values: ["✕", "✕", "○", "-"] },
     ],
     notices: [
       "리깅용 파츠 분리가 완료된 PSD 파일이 필요합니다.",

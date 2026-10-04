@@ -86,6 +86,8 @@ img.about-img { background: #fff; }
 .table thead th { background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-weight: 500; letter-spacing: .08em; border-bottom: 2px solid var(--gold); }
 .table tbody tr:nth-child(even) { background: var(--soft); }
 .table tbody th { text-align: left; font-weight: normal; color: var(--sub); white-space: nowrap; padding-left: 18px; }
+.table td.yes { color: var(--wine); font-weight: 700; }
+.table td.no { color: #c9bfc1; }
 .table .price-row { background: var(--soft); border-top: 2px solid var(--gold); }
 .table .price-row th, .table .price-row td { font-size: 18px; font-weight: 700; color: var(--wine); border-bottom: none; white-space: nowrap; }
 .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; align-items: start; }

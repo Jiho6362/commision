@@ -30,26 +30,34 @@ window.CONTENT = {
     {
       youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
       title: "작업물 제목",
-      category: "풀바디",
+      category: "A타입",
       credit: `일러스트: OOO님
-리깅: 작가 이름
+리깅: 4ki
 2026.09`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
       title: "작업물 제목",
-      category: "하프바디",
+      category: "B타입",
       credit: `일러스트: OOO님
-리깅: 작가 이름
+리깅: 4ki
 2026.08`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
       title: "작업물 제목",
-      category: "기타",
+      category: "C타입",
       credit: `일러스트: OOO님
-리깅: 작가 이름
+리깅: 4ki
 2026.07`,
+    },
+    {
+      youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
+      title: "작업물 제목",
+      category: "월페이퍼",
+      credit: `일러스트: OOO님
+리깅: 4ki
+2026.06`,
     },
   ],
 

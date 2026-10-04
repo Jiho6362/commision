@@ -31,43 +31,46 @@ window.CONTENT = {
       youtube: "https://www.youtube.com/watch?v=q47rMI-Slkw",
       title: "포레님 쇼케이스",
       category: "Light",
-      credit: `리깅: 4ki`,
+      credit: `Illustrated by 하리
+Rigged by 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=zzmy8eCx-O4",
       title: "훼시",
       category: "Standard",
-      credit: `리깅: 4ki`,
+      credit: `Illustrated by 나에
+Rigged by 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
       title: "작련",
       category: "Premium",
-      credit: `리깅: 4ki`,
+      credit: `Illustrated by 수선화
+Rigged by 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=-iiCBIo3N9I",
       title: "하토",
       category: "Premium",
-      credit: `리깅: 4ki`,
+      credit: `Rigged by 4ki`,
     },
     {
       youtube: "https://youtu.be/HLJmKaRxb4E",
       title: "모두의 아치",
       category: "Premium",
-      credit: `리깅: 4ki`,
+      credit: `Rigged by 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
       title: "kiri님 월페이퍼",
       category: "Wallpaper",
-      credit: `리깅: 4ki`,
+      credit: `Rigged by 4ki`,
     },
     {
       youtube: "https://youtu.be/Nw-7MIbBYAo",
       title: "류님 신의상 월페이퍼",
       category: "Wallpaper",
-      credit: `리깅: 4ki`,
+      credit: `Rigged by 4ki`,
     },
   ],
 

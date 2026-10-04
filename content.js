@@ -59,10 +59,10 @@ window.CONTENT = {
   */
   price: {
     options: [
-      { name: "Light",    price: "000,000원", description: `Light 설명을 적어주세요.` },
-      { name: "Standard", price: "000,000원", description: `Standard 설명을 적어주세요.` },
-      { name: "Premium",  price: "000,000원", description: `Premium 설명을 적어주세요.` },
-      { name: "Wallpaper", price: "000,000원", description: `Wallpaper 설명을 적어주세요.` },
+      { name: "Light",    price: "600,000원", description: `Light 설명을 적어주세요.` },
+      { name: "Standard", price: "800,000원", description: `Standard 설명을 적어주세요.` },
+      { name: "Premium",  price: "1,000,000원", description: `Premium 설명을 적어주세요.` },
+      { name: "Wallpaper", price: "200,000원", description: `Wallpaper 설명을 적어주세요.` },
     ],
     rows: [
       { label: "기본 움직임",   values: ["-", "-", "-", "-"] },

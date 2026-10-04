@@ -28,36 +28,16 @@ window.CONTENT = {
   */
   works: [
     {
-      youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
-      title: "작업물 제목",
-      category: "A타입",
-      credit: `일러스트: OOO님
-리깅: 4ki
-2026.09`,
-    },
-    {
-      youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
-      title: "작업물 제목",
-      category: "B타입",
-      credit: `일러스트: OOO님
-리깅: 4ki
-2026.08`,
-    },
-    {
-      youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
-      title: "작업물 제목",
+      youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
+      title: "작련",
       category: "C타입",
-      credit: `일러스트: OOO님
-리깅: 4ki
-2026.07`,
+      credit: `리깅: 4ki`,
     },
     {
-      youtube: "https://www.youtube.com/watch?v=b_2SKc25JU0",
-      title: "작업물 제목",
+      youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
+      title: "kiri님 월페이퍼",
       category: "월페이퍼",
-      credit: `일러스트: OOO님
-리깅: 4ki
-2026.06`,
+      credit: `리깅: 4ki`,
     },
   ],
 

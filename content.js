@@ -48,7 +48,7 @@ window.CONTENT = {
     {
       youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
       title: "kiri님 월페이퍼",
-      category: "월페이퍼",
+      category: "Wallpaper",
       credit: `리깅: 4ki`,
     },
   ],
@@ -62,7 +62,7 @@ window.CONTENT = {
       { name: "Light",    price: "000,000원", description: `Light 설명을 적어주세요.` },
       { name: "Standard", price: "000,000원", description: `Standard 설명을 적어주세요.` },
       { name: "Premium",  price: "000,000원", description: `Premium 설명을 적어주세요.` },
-      { name: "월페이퍼", price: "000,000원", description: `월페이퍼 설명을 적어주세요.` },
+      { name: "Wallpaper", price: "000,000원", description: `Wallpaper 설명을 적어주세요.` },
     ],
     rows: [
       { label: "기본 움직임",   values: ["-", "-", "-", "-"] },
@@ -88,7 +88,7 @@ window.CONTENT = {
     guide: `아래 양식을 작성한 뒤 복사해서 아트머그 신청서에 붙여 넣어 주세요.`,
     fields: [
       { label: "닉네임",          placeholder: "닉네임을 적어 주세요" },
-      { label: "신청 옵션",       options: ["Light", "Standard", "Premium", "월페이퍼"] },
+      { label: "신청 옵션",       options: ["Light", "Standard", "Premium", "Wallpaper"] },
       { label: "모델 용도",       options: ["방송용", "개인 소장", "상업적 이용"] },
       { label: "PSD 파츠 분리",   options: ["완료", "미완료"] },
       { label: "희망 마감일",     placeholder: "예) 2026.12.31 / 협의 가능" },

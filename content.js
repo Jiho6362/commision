@@ -80,7 +80,7 @@ window.CONTENT = {
       {
         name: "Wallpaper",
         price: "200,000원",
-        description: ``,
+        description: `Live2D를 이용해서 방송 대기화면, 또는 배포용으로 루프 애니메이션을 제작합니다.`,
       },
     ],
     rows: [

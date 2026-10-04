@@ -63,6 +63,12 @@ window.CONTENT = {
       category: "Wallpaper",
       credit: `리깅: 4ki`,
     },
+    {
+      youtube: "https://youtu.be/Nw-7MIbBYAo",
+      title: "류님 신의상 월페이퍼",
+      category: "Wallpaper",
+      credit: `리깅: 4ki`,
+    },
   ],
 
   /* ===================== 3. Price =====================

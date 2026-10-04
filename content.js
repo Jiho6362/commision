@@ -29,7 +29,7 @@ window.CONTENT = {
   works: [
     {
       youtube: "https://www.youtube.com/watch?v=q47rMI-Slkw",
-      title: "포레님 쇼케이스",
+      title: "초췌한 소하",
       category: "Light",
       credit: `Illustrated by 하리
 Rigged by 4ki`,

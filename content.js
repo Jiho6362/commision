@@ -66,7 +66,7 @@ window.CONTENT = {
     ],
     rows: [
       { label: "기본 움직임",   values: ["○", "○", "○", "○"] },
-      { label: "표정 작업",     values: ["2개", "3개", "5개", "-"] },
+      { label: "기본 표정 토글", values: ["2개", "3개", "5개", "-"] },
       { label: "볼 부풀리기 · 입 삐죽이기", values: ["✕", "○", "○", "-"] },
       { label: "VBridger",      values: ["✕", "✕", "○", "-"] },
     ],

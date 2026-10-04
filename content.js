@@ -11,10 +11,12 @@ window.CONTENT = {
 
   /* ===================== 1. About Me ===================== */
   about: {
-    name: "작가 이름",
-    image: "",  // 프로필 이미지 링크. 비워두면 이름 첫 글자가 표시됩니다.
-    intro: `간단한 자기소개를 적어주세요.
-주로 작업하는 리깅 스타일, 사용 툴, 커미션 진행 방식 등을 짧게 소개합니다.`,
+    role: "RIGGING ARTIST",  // 이름 위에 작게 표시되는 문구
+    name: "4ki",
+    subname: "사키",         // 이름 옆에 작게 표시되는 읽는 법/다른 이름. 필요 없으면 "" 로 비우기
+    image: "",               // 프로필 이미지 링크. 비워두면 이름 첫 글자가 표시됩니다.
+    intro: `안녕하세요, 리깅 작가로 활동 중인 4ki(사키)입니다.
+자연스럽고 말랑한 리깅을 목표로 작업하고 있습니다 🙂`,
     tags: ["#Live2D", "#버튜버 리깅", "#VTube Studio"],
   },
 
@@ -73,13 +75,20 @@ window.CONTENT = {
     ],
   },
 
-  /* ===================== 4. Contact =====================
-     link 예시: 이메일은 "mailto:주소", 그 외는 https:// 로 시작하는 주소
+  /* ===================== 4. Apply (신청 양식) =====================
+     의뢰인이 '양식 복사하기' 버튼으로 복사해서 아트머그 신청서에 붙여 넣습니다.
+     fields: 양식 항목. hint 는 회색으로 표시되는 안내 (필요 없으면 "")
   */
-  contacts: [
-    { label: "EMAIL",       text: "example@email.com", link: "mailto:example@email.com" },
-    { label: "X (TWITTER)", text: "@example",          link: "https://x.com/example" },
-    { label: "OPEN KAKAO",  text: "링크로 이동",        link: "https://open.kakao.com/" },
-  ],
+  apply: {
+    guide: `커미션 신청 시 아래 양식을 복사해서 아트머그 신청서에 함께 작성해 주세요.`,
+    fields: [
+      { label: "닉네임",          hint: "" },
+      { label: "신청 옵션",       hint: "베이직 / 스탠다드 / 프리미엄" },
+      { label: "모델 용도",       hint: "방송용 / 개인 소장 / 상업적 이용" },
+      { label: "PSD 파츠 분리",   hint: "완료 / 미완료" },
+      { label: "희망 마감일",     hint: "" },
+      { label: "참고 자료 및 요청 사항", hint: "" },
+    ],
+  },
 
 };

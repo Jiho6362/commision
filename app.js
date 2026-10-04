@@ -26,7 +26,8 @@
   var works = C.works || [];
   var price = C.price || {};
   var options = price.options || [];
-  var contacts = C.contacts || [];
+  var apply = C.apply || {};
+  var fields = apply.fields || [];
 
   if (about.name) document.title = about.name + ' | 커미션 안내';
 
@@ -43,7 +44,9 @@
     (about.image
       ? '<img class="about-img" src="' + esc(about.image) + '" alt="">'
       : '<div class="about-img serif">' + esc(String(about.name || '').charAt(0)) + '</div>') +
-    '<div><h3 class="serif">' + esc(about.name) + '</h3>' +
+    '<div>' + (about.role ? '<span class="about-role">' + esc(about.role) + '</span>' : '') +
+    '<h3 class="serif">' + esc(about.name) +
+    (about.subname ? '<small>' + esc(about.subname) + '</small>' : '') + '</h3>' +
     '<p class="pre">' + esc(about.intro) + '</p>' +
     '<div class="tags">' + (about.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
     '</div></div></section>';
@@ -86,16 +89,51 @@
       : '') +
     '</section>';
 
-  // 4. Contact
-  html += '<section class="section" id="contact"><h2 class="title serif">Contact</h2><div class="contact">' +
-    contacts.map(function (c) {
-      var external = /^https?:/.test(c.link || '');
-      return '<a href="' + esc(c.link) + '"' + (external ? ' target="_blank" rel="noopener"' : '') + '>' +
-        '<b>' + esc(c.label) + '</b>' + esc(c.text) + '</a>';
-    }).join('') + '</div></section>';
+  // 4. Apply (신청 양식)
+  var applyText = fields.map(function (f) {
+    return '■ ' + f.label + (f.hint ? ' (' + f.hint + ')' : '') + ' : ';
+  }).join('\n');
+  html += '<section class="section" id="apply"><h2 class="title serif">Apply</h2>' +
+    (apply.guide ? '<p class="apply-guide pre">' + esc(apply.guide) + '</p>' : '') +
+    '<div class="apply"><ul class="apply-list">' +
+    fields.map(function (f) {
+      return '<li><b>' + esc(f.label) + '</b>' + (f.hint ? '<span>' + esc(f.hint) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>' +
+    '<button type="button" class="apply-copy" id="apply-copy">양식 복사하기</button></div></section>';
 
   app.innerHTML = html;
 
+  // 주소에 #portfolio 같은 위치가 붙어 있으면 내용을 그린 뒤 그 위치로 이동
+  var target = location.hash && document.getElementById(location.hash.slice(1));
+  if (target) target.scrollIntoView();
+
+
+  // 신청 양식 복사
+  var copyBtn = document.getElementById('apply-copy');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var done = function () {
+        copyBtn.textContent = '복사되었어요 ✓';
+        copyBtn.classList.add('done');
+        setTimeout(function () { copyBtn.textContent = '양식 복사하기'; copyBtn.classList.remove('done'); }, 2000);
+      };
+      var fallback = function () {
+        var ta = document.createElement('textarea');
+        ta.value = applyText;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(applyText).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
 
   // 카테고리 필터
   var chips = app.querySelectorAll('.chip');

@@ -52,13 +52,15 @@ Rigged by 4ki`,
       youtube: "https://www.youtube.com/watch?v=-iiCBIo3N9I",
       title: "하토",
       category: "Premium",
-      credit: `Rigged by 4ki`,
+      credit: `Illustrated by 259万
+Rigged by 4ki`,
     },
     {
       youtube: "https://youtu.be/HLJmKaRxb4E",
       title: "모두의 아치",
       category: "Premium",
-      credit: `Rigged by 4ki`,
+      credit: `Illustrated by 259万
+Rigged by 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",

@@ -14,7 +14,7 @@ window.CONTENT = {
     role: "RIGGING ARTIST",  // 이름 위에 작게 표시되는 문구
     name: "4ki",
     subname: "사키",         // 이름 옆에 작게 표시되는 읽는 법/다른 이름. 필요 없으면 "" 로 비우기
-    image: "",               // 프로필 이미지 링크. 비워두면 이름 첫 글자가 표시됩니다.
+    image: "images/profile_small.png",  // 프로필 이미지 (images 폴더의 파일 또는 https:// 링크). 비워두면 이름 첫 글자가 표시됩니다.
     intro: `안녕하세요, 리깅 작가로 활동 중인 4ki(사키)입니다.
 자연스럽고 말랑한 리깅을 목표로 작업하고 있습니다 🙂`,
     tags: ["#Live2D", "#버튜버 리깅", "#VTube Studio"],

@@ -72,7 +72,7 @@
         : '<span class="card-empty">유튜브 주소를 확인해 주세요</span>') +
       '<span class="card-info"><span class="badge">' + esc(w.category) + '</span>' +
       '<span class="card-title">' + esc(w.title) + '</span></span></button>';
-  }).join('') + '</div></section>';
+  }).join('') + '</div><div class="pager" id="pager"></div></section>';
 
   // 3. Price
   html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
@@ -219,16 +219,51 @@
     });
   }
 
-  // 카테고리 필터
+  // 카테고리 필터 + 페이지 넘기기 (한 페이지에 PER_PAGE 개)
+  var PER_PAGE = 6;
   var chips = app.querySelectorAll('.chip');
   var cards = app.querySelectorAll('.card');
+  var pager = document.getElementById('pager');
+  var curCat = '';
+  var curPage = 1;
+
+  function showWorks() {
+    var list = Array.prototype.filter.call(cards, function (card) {
+      return !curCat || card.getAttribute('data-cat') === curCat;
+    });
+    var pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+    if (curPage > pages) curPage = pages;
+    cards.forEach(function (card) { card.hidden = true; });
+    list.slice((curPage - 1) * PER_PAGE, curPage * PER_PAGE).forEach(function (card) { card.hidden = false; });
+
+    if (pages < 2) { pager.innerHTML = ''; return; }
+    var h = '<button type="button" class="page-btn" data-p="' + (curPage - 1) + '"' + (curPage === 1 ? ' disabled' : '') + ' aria-label="이전 페이지">‹</button>';
+    for (var p = 1; p <= pages; p++) {
+      h += '<button type="button" class="page-btn' + (p === curPage ? ' on' : '') + '" data-p="' + p + '">' + p + '</button>';
+    }
+    h += '<button type="button" class="page-btn" data-p="' + (curPage + 1) + '"' + (curPage === pages ? ' disabled' : '') + ' aria-label="다음 페이지">›</button>';
+    pager.innerHTML = h;
+  }
+
+  pager.addEventListener('click', function (e) {
+    var btn = e.target.closest('.page-btn');
+    if (!btn || btn.disabled) return;
+    curPage = +btn.getAttribute('data-p');
+    showWorks();
+    // 그리드 윗부분이 화면 위로 지나가 있으면 다시 보이게
+    var top = document.getElementById('portfolio').getBoundingClientRect().top;
+    if (top < 0) document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+  });
+
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
-      var cat = chip.getAttribute('data-cat');
+      curCat = chip.getAttribute('data-cat');
+      curPage = 1;
       chips.forEach(function (c) { c.classList.toggle('on', c === chip); });
-      cards.forEach(function (card) { card.hidden = !!cat && card.getAttribute('data-cat') !== cat; });
+      showWorks();
     });
   });
+  showWorks();
 
   // 작업물 상세 창
   var modal = document.getElementById('modal');

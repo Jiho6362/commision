@@ -34,10 +34,10 @@ window.CONTENT = {
       credit: ``,
     },
     {
-      youtube: "",
-      title: "",
+      youtube: "https://www.youtube.com/watch?v=zzmy8eCx-O4",
+      title: "훼시",
       category: "B타입",
-      credit: ``,
+      credit: `리깅: 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",

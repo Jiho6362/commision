@@ -80,12 +80,14 @@
     html += '<section class="section" id="collab"><h2 class="title serif">Collaboration</h2>' +
       '<div class="collab"><button type="button" class="collab-nav prev" aria-label="이전">‹</button>' +
       '<div class="collab-track">' + collabs.map(function (a) {
-        return '<div class="collab-card">' +
+        var tag = a.link ? 'a' : 'div';
+        return '<' + tag + ' class="collab-card"' + (a.link ? ' href="' + esc(a.link) + '" target="_blank" rel="noopener"' : '') + '>' +
           (a.image
             ? '<img class="collab-img" src="' + esc(a.image) + '" alt="">'
             : '<span class="collab-img serif">' + esc(String(a.name || '').charAt(0)) + '</span>') +
           '<b class="serif">' + esc(a.name) + '</b>' +
-          (a.role ? '<span class="collab-role">' + esc(a.role) + '</span>' : '') + '</div>';
+          (a.role ? '<span class="collab-role">' + esc(a.role) + '</span>' : '') +
+          (a.link ? '<span class="collab-link">작가 페이지 ↗</span>' : '') + '</' + tag + '>';
       }).join('') + '</div>' +
       '<button type="button" class="collab-nav next" aria-label="다음">›</button></div></section>';
   }

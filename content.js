@@ -80,16 +80,22 @@ Rigged by 4ki`,
 
   /* ===================== Collaboration =====================
      함께 작업한 아티스트. 블록을 복사해서 추가
+     - link:  누르면 새 탭으로 열리는 아트머그 작가 페이지 주소
+     - role:  이름 아래 작은 태그 (예: "원화 / 파츠분리"). 비워두면 표시 안 함
      - image: 프로필 이미지 (images 폴더의 파일 또는 https:// 링크). 비워두면 이름 첫 글자가 표시됩니다.
-     - role:  이름 아래 작은 태그
   */
   collabs: [
-    { name: "하리",    role: "일러스트", image: "" },
-    { name: "나에",    role: "일러스트", image: "" },
-    { name: "수선화",  role: "일러스트", image: "" },
-    { name: "259万",   role: "일러스트", image: "" },
-    { name: "Haruri",  role: "일러스트", image: "" },
-    { name: "광태",    role: "일러스트", image: "" },
+    { name: "하리",     link: "https://artmug.kr/index.php?channel=view&uid=40270", role: "", image: "" },
+    { name: "9만",     link: "https://artmug.kr/index.php?channel=view&uid=48526", role: "", image: "" },
+    { name: "쿠리",     link: "https://artmug.kr/index.php?channel=view&uid=54330", role: "", image: "" },
+    { name: "AKIRA",  link: "https://artmug.kr/index.php?channel=view&uid=35817", role: "", image: "" },
+    { name: "토레타",    link: "https://artmug.kr/index.php?channel=view&uid=55513", role: "", image: "" },
+    { name: "이다수",    link: "https://artmug.kr/index.php?channel=view&uid=29584", role: "", image: "" },
+    { name: "나에",     link: "https://artmug.kr/index.php?channel=view&uid=53061", role: "", image: "" },
+    { name: "양초",     link: "https://artmug.kr/index.php?channel=view&uid=47209", role: "", image: "" },
+    { name: "땃쥐",     link: "https://artmug.kr/index.php?channel=view&uid=55960", role: "", image: "" },
+    { name: "108",    link: "https://artmug.kr/index.php?channel=view&uid=58012", role: "", image: "" },
+    { name: "한치",     link: "https://artmug.kr/index.php?channel=view&uid=59475", role: "", image: "" },
   ],
 
   /* ===================== 3. Price =====================

@@ -64,13 +64,15 @@ Rigged by 4ki`,
       youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
       title: "kiri님 월페이퍼",
       category: "Wallpaper",
-      credit: `Rigged by 4ki`,
+      credit: `Illustrated by Haruri
+Rigged by 4ki`,
     },
     {
       youtube: "https://youtu.be/Nw-7MIbBYAo",
       title: "류님 신의상 월페이퍼",
       category: "Wallpaper",
-      credit: `Rigged by 4ki`,
+      credit: `Illustrated by 광태
+Rigged by 4ki`,
     },
   ],
 

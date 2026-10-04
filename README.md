@@ -2,7 +2,7 @@
 
 리깅 작가의 커미션 안내 페이지입니다. 페이지는 **GitHub Pages**에 올리고, 아트머그 프로필에는 **iframe**으로 끼워 넣어 보여 줍니다.
 
-- **보는 사람**: 커미션을 의뢰하려는 분. 작가 소개, 작업물, 가격, 연락처를 빠르게 확인합니다.
+- **보는 사람**: 커미션을 의뢰하려는 분. 작가 소개, 작업물, 가격, 신청 양식을 빠르게 확인합니다.
 - **고치는 사람**: 작가 본인. 개발 지식 없이 `content.js` 파일 하나만 고치면 됩니다.
 
 목표는 **단순함**입니다. 기능을 늘리기보다 의뢰인이 보기 쉽고 작가가 고치기 쉬운 쪽을 우선합니다.
@@ -28,7 +28,7 @@
 | `app.js` | `content.js` 내용을 화면에 그리는 코드 | 아니요 |
 | `artmug.html` | 아트머그에 붙여 넣을 iframe 코드 | 주소만 한 번 |
 | `preview.html` | 아트머그에 들어간 모습을 컴퓨터에서 미리 보는 용도 | 아니요 (업로드 안 해도 됨) |
-| `LICENSE` | 저작권 안내 (모든 권리 보유) | 이름과 연락처만 한 번 |
+| `LICENSE` | 저작권 안내 (모든 권리 보유) | 코드 저작권자 이름만 한 번 |
 
 ---
 
@@ -74,7 +74,7 @@
 2. 오른쪽 위 **+** → **New repository** → 이름을 정하고(예: `commission`) **Public**으로 만듭니다.
 3. 저장소 화면에서 **uploading an existing file**을 눌러 아래 파일을 끌어다 놓고 **Commit changes**를 누릅니다.
    - `index.html`, `style.css`, `app.js`, `content.js`, `LICENSE`, `README.md`
-   - 올리기 전에 `LICENSE`의 `[ ]` 부분(이름, 연락처)을 채워 주세요.
+   - 올리기 전에 `LICENSE`의 `[코드 저작권자 이름]`을 채워 주세요.
 4. 저장소의 **Settings** → **Pages** → Branch를 `main`, 폴더를 `/ (root)`로 정하고 **Save**합니다.
 5. 1~2분 뒤 같은 화면 위쪽에 주소가 나옵니다. (예: `https://아이디.github.io/commission/`)
 6. `artmug.html`의 iframe 한 줄을 아트머그 HTML 편집기에 붙여 넣습니다. (현재 주소: https://jiho6362.github.io/commision/)

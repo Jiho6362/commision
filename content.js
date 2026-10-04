@@ -28,10 +28,10 @@ window.CONTENT = {
   */
   works: [
     {
-      youtube: "",
-      title: "",
+      youtube: "https://www.youtube.com/watch?v=q47rMI-Slkw",
+      title: "포레님 쇼케이스",
       category: "A타입",
-      credit: ``,
+      credit: `리깅: 4ki`,
     },
     {
       youtube: "https://www.youtube.com/watch?v=zzmy8eCx-O4",

@@ -37,6 +37,18 @@
     </div>
   </div>
 
+  <!-- 가격 옵션 팝업 -->
+  <div class="pop" id="pop" hidden>
+    <div class="pop-bg" data-close></div>
+    <div class="pop-box" role="dialog" aria-modal="true" aria-labelledby="pop-name">
+      <button type="button" class="pop-close" data-close aria-label="닫기">×</button>
+      <h3 class="pop-name serif" id="pop-name"></h3>
+      <p class="pop-price" id="pop-price"></p>
+      <p class="pop-desc" id="pop-desc"></p>
+      <button type="button" class="pop-apply" id="pop-apply">이 옵션으로 신청하기</button>
+    </div>
+  </div>
+
   <!-- content.js 는 고칠 때마다 바로 반영되도록 매번 새로 불러옵니다 -->
   <script>document.write('<script src="content.js?t=' + Date.now() + '"><\/script>');</script>
   <script src="app.js"></script>

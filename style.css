@@ -123,6 +123,16 @@ img.about-img { background: #fff; }
 .pop-desc:empty { display: none; }
 .pop-apply { display: block; width: 100%; margin-top: 22px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; letter-spacing: .04em; cursor: pointer; transition: opacity .2s; }
 .pop-apply:hover { opacity: .88; }
+/* 3. Price - 추가 옵션 */
+.addons { margin-top: 24px; padding: 18px 24px 8px; background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+.addons-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 6px; }
+.addons-label { font-size: 10px; letter-spacing: .25em; color: var(--gold); }
+.addons-head b { font-size: 15px; color: var(--wine-dark); }
+.addons-note { margin-left: auto; font-size: 12px; color: var(--sub); }
+.addons-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 28px; }
+.addons-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.addons-list span { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.addons-list b { color: var(--wine); font-weight: 700; white-space: nowrap; }
 .notice { margin-top: 20px; font-size: 14px; color: var(--sub); padding-left: 18px; }
 .notice li::marker { color: var(--gold); }
 
@@ -151,6 +161,7 @@ img.about-img { background: #fff; }
 @media (max-width: 860px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .plans { grid-template-columns: repeat(2, 1fr); }
+  .addons-list { grid-template-columns: repeat(2, 1fr); }
   .modal-box { grid-template-columns: 1fr; gap: 16px; padding: 44px 16px 20px; }
 }
 @media (max-width: 560px) {
@@ -159,6 +170,9 @@ img.about-img { background: #fff; }
   .tags { justify-content: center; }
   .grid { grid-template-columns: 1fr; }
   .plans { grid-template-columns: 1fr; }
+  .addons { padding: 16px 16px 6px; }
+  .addons-list { column-gap: 16px; }
+  .addons-note { margin-left: 0; width: 100%; }
   .nav { gap: 16px; }
 }
 /* 터치 화면(마우스 없음)에서는 제목을 항상 표시 */

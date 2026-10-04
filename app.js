@@ -98,6 +98,13 @@
         '<span class="plan-price">' + esc(o.price) + '</span>' +
         '<span class="plan-toggle">자세히 보기</span></button>';
     }).join('') + '</div>' +
+    ((price.addons || []).length
+      ? '<div class="addons"><div class="addons-head"><span class="addons-label">ADD-ON</span><b>추가 옵션</b>' +
+        (price.addonNote ? '<span class="addons-note">' + esc(price.addonNote) + '</span>' : '') + '</div>' +
+        '<ul class="addons-list">' + price.addons.map(function (a) {
+          return '<li><span>' + esc(a.name) + '</span><b>' + esc(a.price) + '</b></li>';
+        }).join('') + '</ul></div>'
+      : '') +
     ((price.notices || []).length
       ? '<ul class="notice">' + price.notices.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
       : '') +

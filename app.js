@@ -149,6 +149,30 @@
 
   app.innerHTML = html;
 
+  // 아트머그에 길게(화면보다 높게) 들어가 있을 때: 창을 화면 가운데가 아니라 누른 위치 근처에 띄움
+  function isTallFrame() {
+    return document.documentElement.classList.contains('in-frame') && window.innerHeight > screen.height;
+  }
+  function placeNear(overlay, box, anchorEl) {
+    if (!isTallFrame()) { overlay.classList.remove('near'); box.style.marginTop = ''; return; }
+    var docH = document.documentElement.scrollHeight;
+    var r = anchorEl.getBoundingClientRect();
+    var y = r.top + window.scrollY + r.height / 2;
+    overlay.classList.add('near');
+    overlay.style.height = docH + 'px';
+    var top = Math.max(16, Math.min(y - box.offsetHeight / 2, docH - box.offsetHeight - 16));
+    box.style.marginTop = top + 'px';
+  }
+  // 메뉴 링크: 길게 들어가 있을 때도 아트머그 페이지가 해당 위치로 스크롤되도록
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
   // 주소에 #portfolio 같은 위치가 붙어 있으면 내용을 그린 뒤 그 위치로 이동
   var target = location.hash && document.getElementById(location.hash.slice(1));
   if (target) target.scrollIntoView();
@@ -185,6 +209,7 @@
     document.getElementById('pop-price').textContent = o.price || '';
     document.getElementById('pop-desc').textContent = o.description || '';
     pop.hidden = false;
+    placeNear(pop, pop.querySelector('.pop-box'), plan);
     document.body.classList.add('lock');
     pop.querySelector('.pop-close').focus();
   }
@@ -322,6 +347,7 @@
     document.getElementById('modal-credit').textContent = w.credit || '';
     video.src = id ? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0' : 'about:blank';
     modal.hidden = false;
+    placeNear(modal, modal.querySelector('.modal-box'), card);
     document.body.classList.add('lock');
     modal.querySelector('.modal-close').focus();
   }

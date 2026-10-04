@@ -15,6 +15,9 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: "Prete
 body.lock { overflow: hidden; }
 html.in-frame { scrollbar-width: none; }
 html.in-frame::-webkit-scrollbar, html.in-frame body::-webkit-scrollbar { display: none; }
+/* 아트머그에 길게 들어가 있을 때: 창을 누른 위치 근처에 표시 */
+.modal.near, .pop.near { position: absolute; bottom: auto; align-items: flex-start; }
+.modal.near .modal-box, .pop.near .pop-box { max-height: none; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }

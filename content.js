@@ -59,10 +59,29 @@ window.CONTENT = {
   */
   price: {
     options: [
-      { name: "Light",    price: "600,000원", description: `Light 설명을 적어주세요.` },
-      { name: "Standard", price: "800,000원", description: `Standard 설명을 적어주세요.` },
-      { name: "Premium",  price: "1,000,000원", description: `Premium 설명을 적어주세요.` },
-      { name: "Wallpaper", price: "200,000원", description: `Wallpaper 설명을 적어주세요.` },
+      {
+        name: "Light",
+        price: "600,000원",
+        description: `처음 시작하는 분들을 위한 부담 없는 입문용 옵션입니다.
+기본적인 움직임과 자연스러운 물리가 구현되어 있습니다.`,
+      },
+      {
+        name: "Standard",
+        price: "800,000원",
+        description: `안정적인 기본 구성으로 완성도 높은 퀄리티를 구현하는 표준 옵션입니다.
+더욱 자연스러운 움직임과 풍부한 물리가 구현되어 있습니다.`,
+      },
+      {
+        name: "Premium",
+        price: "1,000,000원",
+        description: `정교한 리깅과 디테일한 작업을 더해 자신만의 독창적인 캐릭터를 완성하는 옵션입니다.
+표정에 따른 이목구비 변화와 입 오물오물, 아·에·이·오·우, 입 앙 다물기 등 세밀한 입 모양 표현이 가능합니다.`,
+      },
+      {
+        name: "Wallpaper",
+        price: "200,000원",
+        description: ``,
+      },
     ],
     rows: [
       { label: "기본 움직임",   values: ["○", "○", "○", "○"] },

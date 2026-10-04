@@ -111,7 +111,7 @@ img.about-img { background: #fff; }
 .pop-close:focus-visible, .modal-close:focus-visible { outline: 1px solid var(--gold); border-radius: 4px; }
 .pop-name { margin: 0; font-size: 26px; font-weight: 500; letter-spacing: .04em; color: var(--wine-dark); }
 .pop-price { margin: 6px 0 0; font-size: 18px; font-weight: 700; color: var(--wine); }
-.pop-desc { margin: 18px 0 0; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 14px; line-height: 1.8; text-align: left; white-space: pre-line; }
+.pop-desc { margin: 18px 0 0; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 14px; line-height: 1.8; text-align: left; white-space: pre-line; word-break: keep-all; }
 .pop-desc:empty { display: none; }
 .pop-apply { display: block; width: 100%; margin-top: 22px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; letter-spacing: .04em; cursor: pointer; transition: opacity .2s; }
 .pop-apply:hover { opacity: .88; }

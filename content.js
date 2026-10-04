@@ -59,15 +59,16 @@ window.CONTENT = {
   */
   price: {
     options: [
-      { name: "베이직",   price: "300,000원", description: `방송에 필요한 기본 움직임 위주의 리깅입니다.` },
-      { name: "스탠다드", price: "500,000원", description: `기본 리깅에 세밀한 머리카락 물리와 추가 표정이 포함됩니다.` },
-      { name: "프리미엄", price: "800,000원", description: `전체 옵션이 포함된 리깅입니다. 상세 내용은 문의 주세요.` },
+      { name: "A타입",    price: "000,000원", description: `A타입 설명을 적어주세요.` },
+      { name: "B타입",    price: "000,000원", description: `B타입 설명을 적어주세요.` },
+      { name: "C타입",    price: "000,000원", description: `C타입 설명을 적어주세요.` },
+      { name: "월페이퍼", price: "000,000원", description: `월페이퍼 설명을 적어주세요.` },
     ],
     rows: [
-      { label: "기본 표정 수",  values: ["4개", "6개", "8개"] },
-      { label: "머리카락 물리", values: ["기본", "세밀", "세밀"] },
-      { label: "수정 횟수",     values: ["1회", "2회", "3회"] },
-      { label: "작업 기간",     values: ["2주", "3주", "4주"] },
+      { label: "기본 표정 수",  values: ["-", "-", "-", "-"] },
+      { label: "머리카락 물리", values: ["-", "-", "-", "-"] },
+      { label: "수정 횟수",     values: ["-", "-", "-", "-"] },
+      { label: "작업 기간",     values: ["-", "-", "-", "-"] },
     ],
     notices: [
       "리깅용 파츠 분리가 완료된 PSD 파일이 필요합니다.",
@@ -83,7 +84,7 @@ window.CONTENT = {
     guide: `커미션 신청 시 아래 양식을 복사해서 아트머그 신청서에 함께 작성해 주세요.`,
     fields: [
       { label: "닉네임",          hint: "" },
-      { label: "신청 옵션",       hint: "베이직 / 스탠다드 / 프리미엄" },
+      { label: "신청 옵션",       hint: "A타입 / B타입 / C타입 / 월페이퍼" },
       { label: "모델 용도",       hint: "방송용 / 개인 소장 / 상업적 이용" },
       { label: "PSD 파츠 분리",   hint: "완료 / 미완료" },
       { label: "희망 마감일",     hint: "" },

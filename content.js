@@ -67,8 +67,7 @@ window.CONTENT = {
     rows: [
       { label: "기본 움직임",   values: ["-", "-", "-", "-"] },
       { label: "표정 작업",     values: ["-", "-", "-", "-"] },
-      { label: "볼 부풀리기",   values: ["-", "-", "-", "-"] },
-      { label: "입 삐죽이기",   values: ["-", "-", "-", "-"] },
+      { label: "볼 부풀리기 · 입 삐죽이기", values: ["-", "-", "-", "-"] },
       { label: "VBridger",      values: ["-", "-", "-", "-"] },
     ],
     notices: [

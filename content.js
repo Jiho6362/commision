@@ -30,6 +30,18 @@ window.CONTENT = {
     {
       youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
       title: "작련",
+      category: "A타입",
+      credit: `리깅: 4ki`,
+    },
+    {
+      youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
+      title: "kiri님 월페이퍼",
+      category: "B타입",
+      credit: `리깅: 4ki`,
+    },
+    {
+      youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
+      title: "작련",
       category: "C타입",
       credit: `리깅: 4ki`,
     },

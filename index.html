@@ -37,7 +37,8 @@
     </div>
   </div>
 
-  <script src="content.js"></script>
+  <!-- content.js 는 고칠 때마다 바로 반영되도록 매번 새로 불러옵니다 -->
+  <script>document.write('<script src="content.js?t=' + Date.now() + '"><\/script>');</script>
   <script src="app.js"></script>
 </body>
 </html>

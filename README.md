@@ -92,7 +92,7 @@
 
 ```js
 {
-  youtube: "https://www.youtube.com/watch?v=영상ID",  // 유튜브 주소를 그대로 붙여 넣기
+  youtube: "https://www.youtube.com/watch?v=영상ID",  // 유튜브 주소를 그대로 붙여 넣기. 비워두면("") '비어있음' 칸으로 표시
   title: "작업물 제목",
   category: "풀바디",                                 // 같은 이름끼리 묶여 버튼이 자동 생성됨
   credit: `일러스트: OOO님

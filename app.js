@@ -61,6 +61,11 @@
   html += '<div class="grid">' + works.map(function (w, i) {
     var id = youtubeId(w.youtube);
     var thumb = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+    // 유튜브 주소가 비어 있으면 '비어있음' 칸으로 표시 (누를 수 없음)
+    if (!String(w.youtube || '').trim()) {
+      return '<button type="button" class="card card-blank" disabled data-cat="' + esc(w.category) + '">' +
+        '<span class="card-empty"><span class="badge">' + esc(w.category) + '</span>비어있음</span></button>';
+    }
     return '<button type="button" class="card" data-i="' + i + '" data-cat="' + esc(w.category) + '">' +
       (id
         ? '<img class="card-bg" src="' + thumb + '" alt="" loading="lazy"><img class="card-img" src="' + thumb + '" alt="" loading="lazy">'
@@ -173,6 +178,7 @@
   }
 
   cards.forEach(function (card) {
+    if (card.disabled) return;
     card.addEventListener('click', function () { open(card); });
   });
   modal.querySelectorAll('[data-close]').forEach(function (el) {

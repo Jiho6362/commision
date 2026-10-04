@@ -22,22 +22,22 @@ window.CONTENT = {
 
   /* ===================== 2. Portfolio =====================
      작업물 추가: { ... }, 블록 하나를 통째로 복사해서 붙여 넣고 내용만 바꾸기
-     - youtube: 유튜브 주소를 그대로 붙여 넣으면 됩니다.
+     - youtube: 유튜브 주소를 그대로 붙여 넣으면 됩니다. 비워두면("") '비어있음' 칸으로 표시됩니다.
      - category: 같은 이름끼리 묶여서 위쪽 버튼이 자동으로 만들어집니다.
      - 맨 위에 있는 작업물이 화면 맨 앞에 나옵니다.
   */
   works: [
     {
-      youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",
-      title: "작련",
+      youtube: "",
+      title: "",
       category: "A타입",
-      credit: `리깅: 4ki`,
+      credit: ``,
     },
     {
-      youtube: "https://www.youtube.com/watch?v=Ztj3rAcGkDg",
-      title: "kiri님 월페이퍼",
+      youtube: "",
+      title: "",
       category: "B타입",
-      credit: `리깅: 4ki`,
+      credit: ``,
     },
     {
       youtube: "https://www.youtube.com/watch?v=i-4U8_7t0Hw",

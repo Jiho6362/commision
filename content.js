@@ -11,7 +11,7 @@ window.CONTENT = {
 
   /* ===================== 1. About Me ===================== */
   about: {
-    role: "RIGGING ARTIST",  // 이름 위에 작게 표시되는 문구
+    role: "RIGGER",  // 이름 위에 작게 표시되는 문구
     name: "4ki",
     subname: "사키",         // 이름 옆에 작게 표시되는 읽는 법/다른 이름. 필요 없으면 "" 로 비우기
     image: "images/profile_small.png",  // 프로필 이미지 (images 폴더의 파일 또는 https:// 링크). 비워두면 이름 첫 글자가 표시됩니다.

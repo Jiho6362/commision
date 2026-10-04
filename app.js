@@ -86,8 +86,18 @@
     '<tr class="price-row"><th>가격</th>' +
     options.map(function (o) { return '<td>' + esc(o.price) + '</td>'; }).join('') +
     '</tr></tbody></table></div>' +
-    '<div class="options">' + options.filter(function (o) { return o.description; }).map(function (o) {
-      return '<details><summary>' + esc(o.name) + '</summary><p class="pre">' + esc(o.description) + '</p></details>';
+    '<div class="plans">' + options.map(function (o, j) {
+      var no = j < 9 ? '0' + (j + 1) : String(j + 1);
+      return '<div class="plan">' +
+        '<button type="button" class="plan-head" aria-expanded="false">' +
+        '<span class="plan-no">OPTION ' + no + '</span>' +
+        '<span class="plan-name serif">' + esc(o.name) + '</span>' +
+        '<span class="plan-price">' + esc(o.price) + '</span>' +
+        '<span class="plan-toggle">자세히 보기</span></button>' +
+        '<div class="plan-body"><div class="plan-inner">' +
+        (o.description ? '<p class="pre">' + esc(o.description) + '</p>' : '') +
+        '<button type="button" class="plan-apply" data-v="' + esc(o.name) + '">이 옵션으로 신청하기</button>' +
+        '</div></div></div>';
     }).join('') + '</div>' +
     ((price.notices || []).length
       ? '<ul class="notice">' + price.notices.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
@@ -120,6 +130,15 @@
   if (target) target.scrollIntoView();
 
 
+  // 가격 카드: 누르면 설명이 펼쳐지고, 다시 누르면 접힘
+  app.querySelectorAll('.plan-head').forEach(function (head) {
+    head.addEventListener('click', function () {
+      var open = head.parentNode.classList.toggle('open');
+      head.setAttribute('aria-expanded', open);
+      head.querySelector('.plan-toggle').textContent = open ? '접기' : '자세히 보기';
+    });
+  });
+
   // 신청 양식: 선택 버튼은 하나만 고를 수 있고, 다시 누르면 취소
   var answers = fields.map(function () { return ''; });
   app.querySelectorAll('.apply-opt').forEach(function (btn) {
@@ -136,6 +155,18 @@
   });
   app.querySelectorAll('.apply-input').forEach(function (el) {
     el.addEventListener('input', function () { answers[+el.getAttribute('data-f')] = el.value; });
+  });
+
+  // 가격 카드의 '이 옵션으로 신청하기': 신청 양식에서 해당 옵션을 골라 두고 양식으로 이동
+  app.querySelectorAll('.plan-apply').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = btn.getAttribute('data-v');
+      var opt = Array.prototype.filter.call(app.querySelectorAll('.apply-opt'), function (b) {
+        return b.getAttribute('data-v') === v;
+      })[0];
+      if (opt && !opt.classList.contains('on')) opt.click();
+      document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+    });
   });
 
   // 신청 양식 복사: 고르고 적은 내용을 양식 형태로 복사

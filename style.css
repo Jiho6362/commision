@@ -99,10 +99,17 @@ img.about-img { background: #fff; }
 .apply-guide { text-align: center; color: var(--sub); margin: -8px 0 24px; }
 .apply { max-width: 640px; margin: 0 auto; background: var(--soft); border: 1px solid var(--line); border-top: 3px solid var(--wine); padding: 28px 32px; }
 .apply-list { list-style: none; margin: 0 0 24px; padding: 0; }
-.apply-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
-.apply-list li::before { content: "◆"; font-size: 8px; color: var(--gold); align-self: center; }
+.apply-list li { display: grid; grid-template-columns: 8px 1fr; gap: 10px 12px; align-items: center; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+.apply-list li::before { content: "◆"; font-size: 8px; color: var(--gold); }
 .apply-list b { font-weight: 700; color: var(--wine-dark); }
-.apply-list span { font-size: 13px; color: var(--sub); }
+.apply-opts, .apply-input { grid-column: 2; }
+.apply-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.apply-opt { padding: 6px 16px; border: 1px solid var(--line); background: var(--bg); border-radius: 999px; font-size: 13px; color: var(--sub); cursor: pointer; transition: all .2s; }
+.apply-opt:hover { border-color: var(--wine); color: var(--wine); }
+.apply-opt.on { background: linear-gradient(135deg, var(--wine), var(--wine-dark)); border-color: var(--wine); color: #fff; }
+.apply-input { width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--text); font: inherit; font-size: 14px; resize: vertical; transition: border-color .2s; }
+.apply-input::placeholder { color: #b9aeb0; }
+.apply-input:focus { outline: none; border-color: var(--gold); }
 .apply-copy { display: block; margin: 0 auto; padding: 12px 36px; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; letter-spacing: .05em; cursor: pointer; box-shadow: 0 4px 14px rgba(74, 22, 33, .2); transition: transform .2s, box-shadow .2s; }
 .apply-copy:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 22, 33, .28); }
 .apply-copy.done { background: var(--gold); }

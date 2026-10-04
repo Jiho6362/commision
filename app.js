@@ -94,15 +94,22 @@
       : '') +
     '</section>';
 
-  // 4. Apply (신청 양식)
-  var applyText = fields.map(function (f) {
-    return '■ ' + f.label + (f.hint ? ' (' + f.hint + ')' : '') + ' : ';
-  }).join('\n');
+  // 4. Apply (신청 양식): options 가 있으면 선택 버튼, 없으면 입력칸
   html += '<section class="section" id="apply"><h2 class="title serif">Apply</h2>' +
     (apply.guide ? '<p class="apply-guide pre">' + esc(apply.guide) + '</p>' : '') +
     '<div class="apply"><ul class="apply-list">' +
-    fields.map(function (f) {
-      return '<li><b>' + esc(f.label) + '</b>' + (f.hint ? '<span>' + esc(f.hint) + '</span>' : '') + '</li>';
+    fields.map(function (f, i) {
+      var control;
+      if (f.options && f.options.length) {
+        control = '<div class="apply-opts">' + f.options.map(function (o) {
+          return '<button type="button" class="apply-opt" data-f="' + i + '" data-v="' + esc(o) + '" aria-pressed="false">' + esc(o) + '</button>';
+        }).join('') + '</div>';
+      } else if (f.input === 'textarea') {
+        control = '<textarea class="apply-input" data-f="' + i + '" rows="4" placeholder="' + esc(f.placeholder) + '"></textarea>';
+      } else {
+        control = '<input type="text" class="apply-input" data-f="' + i + '" placeholder="' + esc(f.placeholder) + '">';
+      }
+      return '<li><b>' + esc(f.label) + '</b>' + control + '</li>';
     }).join('') + '</ul>' +
     '<button type="button" class="apply-copy" id="apply-copy">양식 복사하기</button></div></section>';
 
@@ -113,10 +120,32 @@
   if (target) target.scrollIntoView();
 
 
-  // 신청 양식 복사
+  // 신청 양식: 선택 버튼은 하나만 고를 수 있고, 다시 누르면 취소
+  var answers = fields.map(function () { return ''; });
+  app.querySelectorAll('.apply-opt').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = +btn.getAttribute('data-f');
+      var v = btn.getAttribute('data-v');
+      answers[f] = answers[f] === v ? '' : v;
+      app.querySelectorAll('.apply-opt[data-f="' + f + '"]').forEach(function (b) {
+        var on = b.getAttribute('data-v') === answers[f];
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', on);
+      });
+    });
+  });
+  app.querySelectorAll('.apply-input').forEach(function (el) {
+    el.addEventListener('input', function () { answers[+el.getAttribute('data-f')] = el.value; });
+  });
+
+  // 신청 양식 복사: 고르고 적은 내용을 양식 형태로 복사
   var copyBtn = document.getElementById('apply-copy');
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
+      var applyText = fields.map(function (f, i) {
+        var v = answers[i].trim();
+        return '■ ' + f.label + ' : ' + (v.indexOf('\n') >= 0 ? '\n' + v : v);
+      }).join('\n');
       var done = function () {
         copyBtn.textContent = '복사되었어요 ✓';
         copyBtn.classList.add('done');

@@ -86,10 +86,10 @@ Rigged by 4ki`,
   */
   collabs: [
     { name: "하리",     link: "https://artmug.kr/index.php?channel=view&uid=40270", role: "", image: "" },
-    { name: "9만",     link: "https://artmug.kr/index.php?channel=view&uid=48526", role: "", image: "" },
+    { name: "9만",     link: "https://artmug.kr/index.php?channel=view&uid=48526", role: "", image: "images/collab/9man.png" },
     { name: "쿠리",     link: "https://artmug.kr/index.php?channel=view&uid=54330", role: "", image: "" },
     { name: "AKIRA",  link: "https://artmug.kr/index.php?channel=view&uid=35817", role: "", image: "images/collab/akira.jpg" },
-    { name: "토레타",    link: "https://artmug.kr/index.php?channel=view&uid=55513", role: "", image: "" },
+    { name: "토레타",    link: "https://artmug.kr/index.php?channel=view&uid=55513", role: "", image: "images/collab/toreta.jpg" },
     { name: "이다수",    link: "https://artmug.kr/index.php?channel=view&uid=29584", role: "", image: "" },
     { name: "나에",     link: "https://artmug.kr/index.php?channel=view&uid=53061", role: "", image: "" },
     { name: "양초",     link: "https://artmug.kr/index.php?channel=view&uid=47209", role: "", image: "" },

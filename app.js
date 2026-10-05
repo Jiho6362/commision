@@ -173,6 +173,19 @@
     });
   });
 
+  // 확인 모드: 주소에 ?debug 를 붙이면 아트머그가 준 틀 크기와 페이지 길이를 화면에 표시
+  if (/[?&]debug/.test(location.search)) {
+    var dbg = document.createElement('div');
+    dbg.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.8);color:#fff;font:12px/1.5 monospace;pointer-events:none';
+    var showDbg = function () {
+      dbg.textContent = '틀 ' + window.innerWidth + '×' + window.innerHeight + 'px · 페이지 ' + document.documentElement.scrollHeight + 'px · ' + (window.self !== window.top ? 'iframe' : '직접 열림');
+    };
+    document.body.appendChild(dbg);
+    showDbg();
+    window.addEventListener('resize', showDbg);
+    setTimeout(showDbg, 1500);
+  }
+
   // 주소에 #portfolio 같은 위치가 붙어 있으면 내용을 그린 뒤 그 위치로 이동
   var target = location.hash && document.getElementById(location.hash.slice(1));
   if (target) target.scrollIntoView();

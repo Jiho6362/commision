@@ -87,7 +87,7 @@ Rigged by 4ki`,
   collabs: [
     { name: "하리",     link: "https://artmug.kr/index.php?channel=view&uid=40270", role: "", image: "" },
     { name: "9만",     link: "https://artmug.kr/index.php?channel=view&uid=48526", role: "", image: "images/collab/9man.png" },
-    { name: "쿠리",     link: "https://artmug.kr/index.php?channel=view&uid=54330", role: "", image: "" },
+    { name: "쿠리",     link: "https://artmug.kr/index.php?channel=view&uid=54330", role: "", image: "images/collab/kuri.png" },
     { name: "AKIRA",  link: "https://artmug.kr/index.php?channel=view&uid=35817", role: "", image: "images/collab/akira.jpg" },
     { name: "토레타",    link: "https://artmug.kr/index.php?channel=view&uid=55513", role: "", image: "images/collab/toreta.jpg" },
     { name: "이다수",    link: "https://artmug.kr/index.php?channel=view&uid=29584", role: "", image: "" },
@@ -95,7 +95,7 @@ Rigged by 4ki`,
     { name: "양초",     link: "https://artmug.kr/index.php?channel=view&uid=47209", role: "", image: "images/collab/yangcho.png" },
     { name: "땃쥐",     link: "https://artmug.kr/index.php?channel=view&uid=55960", role: "", image: "images/collab/ddatjwi.png" },
     { name: "108",    link: "https://artmug.kr/index.php?channel=view&uid=58012", role: "", image: "" },
-    { name: "한치",     link: "https://artmug.kr/index.php?channel=view&uid=59475", role: "", image: "" },
+    { name: "한치",     link: "https://artmug.kr/index.php?channel=view&uid=59475", role: "", image: "images/collab/hanchi.png" },
   ],
 
   /* ===================== 3. Price =====================

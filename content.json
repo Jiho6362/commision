@@ -75,16 +75,16 @@
       "image": "images/collab/kuri.png"
     },
     {
-      "name": "하리",
-      "link": "https://artmug.kr/index.php?channel=view&uid=40270",
-      "role": "",
-      "image": "images/collab/hari.png"
-    },
-    {
       "name": "AKIRA",
       "link": "https://artmug.kr/index.php?channel=view&uid=35817",
       "role": "",
       "image": "images/collab/akira.jpg"
+    },
+    {
+      "name": "하리",
+      "link": "https://artmug.kr/index.php?channel=view&uid=40270",
+      "role": "",
+      "image": "images/collab/hari.png"
     },
     {
       "name": "토레타",

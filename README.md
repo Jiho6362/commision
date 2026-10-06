@@ -110,7 +110,7 @@
    - Repository access: **Only select repositories** → `commision`
    - Permissions → Repository permissions → **Contents: Read and write**
 3. 나온 토큰(`github_pat_...`)을 복사합니다. **다른 사람에게 보내지 마세요.**
-4. `https://jiho6362.github.io/commision/admin.html?setup` 에서 토큰과 관리자 비밀번호(10자 이상)를 넣고 **등록하기**를 누릅니다.
+4. `https://jiho6362.github.io/commision/admin.html?setup` 에서 토큰과 관리자 비밀번호(8자 이상)를 넣고 **등록하기**를 누릅니다.
 5. 1~2분 뒤 `https://jiho6362.github.io/commision/admin.html` 에서 그 비밀번호로 로그인할 수 있습니다. 작가분에게는 **비밀번호만** 알려 줍니다.
 
 - 비밀번호만 바꿀 때는 관리자 페이지의 **설정** 탭을 씁니다. 토큰이 만료되면 4번을 다시 하면 됩니다.

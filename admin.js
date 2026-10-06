@@ -97,7 +97,7 @@
   $('setup-go').addEventListener('click', async function () {
     var tok = $('setup-token').value.trim(), pw = $('setup-pw').value, pw2 = $('setup-pw2').value;
     if (!tok) return msg('setup-msg', 'GitHub 토큰을 넣어 주세요.', 'err');
-    if (pw.length < 10) return msg('setup-msg', '비밀번호는 10자 이상으로 정해 주세요.', 'err');
+    if (pw.length < 8) return msg('setup-msg', '비밀번호는 8자 이상으로 정해 주세요.', 'err');
     if (pw !== pw2) return msg('setup-msg', '비밀번호 확인이 맞지 않아요.', 'err');
     this.disabled = true;
     msg('setup-msg', '토큰을 확인하는 중...');
@@ -262,7 +262,7 @@
         }).join('') + '</div>';
     } else if (tab === 'settings') {
       h = '<div class="adm-card"><h2>비밀번호 바꾸기</h2>' +
-        '<label>새 비밀번호 (10자 이상)<input type="password" id="pw-new" autocomplete="new-password"></label>' +
+        '<label>새 비밀번호 (8자 이상)<input type="password" id="pw-new" autocomplete="new-password"></label>' +
         '<label>새 비밀번호 확인<input type="password" id="pw-new2" autocomplete="new-password"></label>' +
         '<button type="button" class="adm-btn" id="pw-change">바꾸기</button>' +
         '<p class="adm-msg" id="pw-msg"></p>' +
@@ -335,7 +335,7 @@
   $('panel').addEventListener('click', async function (e) {
     if (e.target.id !== 'pw-change') return;
     var pw = $('pw-new').value, pw2 = $('pw-new2').value;
-    if (pw.length < 10) return msg('pw-msg', '비밀번호는 10자 이상으로 정해 주세요.', 'err');
+    if (pw.length < 8) return msg('pw-msg', '비밀번호는 8자 이상으로 정해 주세요.', 'err');
     if (pw !== pw2) return msg('pw-msg', '비밀번호 확인이 맞지 않아요.', 'err');
     e.target.disabled = true;
     msg('pw-msg', '바꾸는 중...');

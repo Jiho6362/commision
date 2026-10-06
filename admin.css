@@ -1,0 +1,54 @@
+/* 관리자 페이지 (색은 style.css 의 테마 색상을 그대로 사용) */
+.adm [hidden], .adm-link[hidden] { display: none !important; }
+.adm { max-width: 760px; margin: 0 auto; padding: 24px 16px 120px; }
+.adm-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+.adm-top h1 { margin: 0; font-size: 22px; font-weight: 500; color: var(--wine); letter-spacing: .08em; }
+.adm-top-right { display: flex; gap: 14px; align-items: center; font-size: 13px; }
+.adm-top-right a { color: var(--sub); text-decoration: none; }
+.adm-link { background: none; border: 0; padding: 0; color: var(--sub); font-size: 13px; cursor: pointer; text-decoration: underline; }
+
+.adm-card { background: var(--soft); border: 1px solid var(--line); border-top: 3px solid var(--wine); border-radius: 6px; padding: 24px; display: grid; gap: 14px; }
+.adm-card h2 { margin: 0; font-size: 18px; color: var(--wine-dark); }
+.adm-login { max-width: 380px; margin: 40px auto; }
+.adm label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--wine-dark); }
+.adm input[type=text], .adm input[type=password], .adm input[type=url], .adm textarea, .adm select { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--text); font: inherit; font-size: 14px; font-weight: 400; }
+.adm textarea { resize: vertical; min-height: 64px; }
+.adm input:focus, .adm textarea:focus, .adm select:focus { outline: none; border-color: var(--gold); }
+.adm-check { display: flex !important; align-items: center; gap: 8px; font-weight: 400 !important; color: var(--sub) !important; }
+.adm-help { margin: 0; font-size: 12px; color: var(--sub); }
+.adm-msg { margin: 0; font-size: 13px; color: var(--sub); }
+.adm-msg.err { color: #c0392b; }
+.adm-msg.ok { color: #2e7d32; }
+
+.adm-btn { padding: 10px 26px; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; cursor: pointer; justify-self: start; }
+.adm-btn:disabled { opacity: .4; cursor: default; }
+.adm-btn.ghost { background: none; border: 1px solid var(--line); color: var(--wine); }
+
+.adm-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.adm-tabs button { padding: 7px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--sub); font-size: 14px; cursor: pointer; }
+.adm-tabs button.on { background: linear-gradient(135deg, var(--wine), var(--wine-dark)); border-color: var(--wine); color: #fff; }
+
+.adm-list { display: grid; gap: 12px; }
+.adm-item { display: grid; grid-template-columns: 96px 1fr; gap: 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 6px; padding: 14px; }
+.adm-item.profile { grid-template-columns: 120px 1fr; }
+.adm-thumb { width: 96px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: var(--line); }
+.adm-avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 0 0 1px var(--gold); }
+.adm-item.profile .adm-avatar { width: 120px; height: 120px; }
+img.adm-avatar { background: #fff; }
+.adm-fields { display: grid; gap: 10px; min-width: 0; }
+.adm-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.adm-tools { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.adm-tools button, .adm-file { padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--sub); font-size: 12px; font-weight: 400; cursor: pointer; }
+.adm-tools button:hover, .adm-file:hover { border-color: var(--wine); color: var(--wine); }
+.adm-tools .del:hover { border-color: #c0392b; color: #c0392b; }
+.adm-tools button:disabled { opacity: .35; cursor: default; }
+.adm-file { display: inline-block !important; }
+.adm-file input { display: none; }
+.adm-add { margin-top: 12px; }
+
+.adm-save { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; gap: 14px; padding: 12px 16px; background: rgba(255, 255, 255, .95); border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(0, 0, 0, .06); }
+
+@media (max-width: 560px) {
+  .adm-item, .adm-item.profile { grid-template-columns: 1fr; }
+  .adm-row2 { grid-template-columns: 1fr; }
+}

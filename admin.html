@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>4ki | 관리자</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="adm">
+    <header class="adm-top">
+      <h1 class="serif">관리자</h1>
+      <div class="adm-top-right">
+        <a href="./" target="_blank" rel="noopener">사이트 보기 ↗</a>
+        <button type="button" class="adm-link" id="logout" hidden>로그아웃</button>
+      </div>
+    </header>
+
+    <!-- 처음 한 번: 열쇠(토큰) 등록 -->
+    <section class="adm-card" id="view-setup" hidden>
+      <h2>처음 설정</h2>
+      <p class="adm-help">GitHub 저장소에 저장할 수 있는 열쇠(토큰)를 비밀번호로 잠가서 등록합니다. 저장소 주인이 한 번만 하면 됩니다.</p>
+      <label>GitHub 토큰<input type="password" id="setup-token" autocomplete="off" placeholder="github_pat_..."></label>
+      <label>관리자 비밀번호 (10자 이상)<input type="password" id="setup-pw" autocomplete="new-password"></label>
+      <label>비밀번호 확인<input type="password" id="setup-pw2" autocomplete="new-password"></label>
+      <button type="button" class="adm-btn" id="setup-go">등록하기</button>
+      <p class="adm-msg" id="setup-msg"></p>
+    </section>
+
+    <!-- 로그인 -->
+    <section class="adm-card adm-login" id="view-login" hidden>
+      <h2>로그인</h2>
+      <label>비밀번호<input type="password" id="login-pw" autocomplete="current-password"></label>
+      <label class="adm-check"><input type="checkbox" id="login-remember"> 이 기기에서 로그인 유지</label>
+      <button type="button" class="adm-btn" id="login-go">로그인</button>
+      <p class="adm-msg" id="login-msg"></p>
+      <p class="adm-help"><a href="?setup">비밀번호 / 토큰 다시 등록</a></p>
+    </section>
+
+    <!-- 편집 -->
+    <section id="view-edit" hidden>
+      <nav class="adm-tabs">
+        <button type="button" data-tab="profile" class="on">프로필</button>
+        <button type="button" data-tab="works">포트폴리오</button>
+        <button type="button" data-tab="collabs">콜라보</button>
+      </nav>
+      <div id="panel"></div>
+      <div class="adm-save">
+        <span class="adm-msg" id="save-msg"></span>
+        <button type="button" class="adm-btn" id="save" disabled>저장하기</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,12 +1,16 @@
-// content.js 의 내용을 화면에 그립니다. 이 파일은 고치지 않아도 됩니다.
+// content.json 의 내용을 화면에 그립니다. 내용은 관리자 페이지(admin.html)에서 고칩니다.
 (function () {
-  var C = window.CONTENT;
   var app = document.getElementById('app');
 
-  if (!C) {
-    app.innerHTML = '<p class="error">content.js 를 읽지 못했어요. 마지막으로 고친 곳에서 쉼표(,)나 따옴표가 빠지지 않았는지 확인해 주세요.</p>';
-    return;
-  }
+  // 고친 내용이 바로 보이도록 매번 새로 불러옴
+  fetch('content.json?t=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function () {
+      app.innerHTML = '<p class="error">내용(content.json)을 불러오지 못했어요. 잠시 후 새로고침해 주세요.</p>';
+    });
+
+  function render(C) {
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -383,4 +387,5 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { close(); closePop(); }
   });
+  }
 })();

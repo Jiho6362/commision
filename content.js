@@ -85,7 +85,7 @@ Rigged by 4ki`,
      - image: 프로필 이미지 (images 폴더의 파일 또는 https:// 링크). 비워두면 이름 첫 글자가 표시됩니다.
   */
   collabs: [
-    { name: "하리",     link: "https://artmug.kr/index.php?channel=view&uid=40270", role: "", image: "" },
+    { name: "하리",     link: "https://artmug.kr/index.php?channel=view&uid=40270", role: "", image: "images/collab/hari.png" },
     { name: "9만",     link: "https://artmug.kr/index.php?channel=view&uid=48526", role: "", image: "images/collab/9man.png" },
     { name: "쿠리",     link: "https://artmug.kr/index.php?channel=view&uid=54330", role: "", image: "images/collab/kuri.png" },
     { name: "AKIRA",  link: "https://artmug.kr/index.php?channel=view&uid=35817", role: "", image: "images/collab/akira.jpg" },

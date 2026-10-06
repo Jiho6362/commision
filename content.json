@@ -57,16 +57,16 @@
   ],
   "collabs": [
     {
-      "name": "하리",
-      "link": "https://artmug.kr/index.php?channel=view&uid=40270",
-      "role": "",
-      "image": "images/collab/hari.png"
-    },
-    {
       "name": "9만",
       "link": "https://artmug.kr/index.php?channel=view&uid=48526",
       "role": "",
       "image": "images/collab/9man.png"
+    },
+    {
+      "name": "하리",
+      "link": "https://artmug.kr/index.php?channel=view&uid=40270",
+      "role": "",
+      "image": "images/collab/hari.png"
     },
     {
       "name": "쿠리",

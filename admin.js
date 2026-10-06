@@ -161,6 +161,7 @@
     data.works = data.works || [];
     data.collabs = data.collabs || [];
     loadedSha = f.sha;
+    sortWorks();
     pending = {};
     previews = {};
     setDirty(false);
@@ -215,9 +216,14 @@
     return '<label>' + label + '<input type="text" data-path="' + path + '" value="' + esc(value) + '"></label>';
   }
   function tools(kind, i, len) {
+    var noUp = i === 0, noDown = i === len - 1;
+    if (kind === 'works') {   // 포트폴리오는 같은 카테고리 안에서만 이동
+      noUp = noUp || catRank(data.works[i - 1]) !== catRank(data.works[i]);
+      noDown = noDown || catRank(data.works[i + 1]) !== catRank(data.works[i]);
+    }
     return '<div class="adm-tools">' +
-      '<button type="button" data-act="up" data-kind="' + kind + '" data-i="' + i + '"' + (i === 0 ? ' disabled' : '') + '>↑ 위로</button>' +
-      '<button type="button" data-act="down" data-kind="' + kind + '" data-i="' + i + '"' + (i === len - 1 ? ' disabled' : '') + '>↓ 아래로</button>' +
+      '<button type="button" data-act="up" data-kind="' + kind + '" data-i="' + i + '"' + (noUp ? ' disabled' : '') + '>↑ 위로</button>' +
+      '<button type="button" data-act="down" data-kind="' + kind + '" data-i="' + i + '"' + (noDown ? ' disabled' : '') + '>↓ 아래로</button>' +
       '<button type="button" class="del" data-act="del" data-kind="' + kind + '" data-i="' + i + '">삭제</button></div>';
   }
   function avatar(path, name) {
@@ -240,8 +246,8 @@
         '</div></div>';
     } else if (tab === 'works') {
       var cats = (data.price && data.price.options || []).map(function (o) { return o.name; });
-      h = '<p class="adm-help">맨 위 작업물이 사이트에서 맨 앞에 나와요. 유튜브 주소를 비워 두면 \'비어있음\' 칸으로 보여요.</p>' +
-        '<button type="button" class="adm-btn ghost adm-add" data-act="add" data-kind="works">+ 작업물 맨 앞에 추가</button>' +
+      h = '<p class="adm-help">작업물은 카테고리 순서(' + esc(cats.join(' → ')) + ')로 자동 정렬돼요. ↑↓ 는 같은 카테고리 안에서 순서를 바꿔요. 유튜브 주소를 비워 두면 \'비어있음\' 칸으로 보여요.</p>' +
+        '<button type="button" class="adm-btn ghost adm-add" data-act="add" data-kind="works">+ 작업물 추가</button>' +
         '<datalist id="cats">' + cats.map(function (c) { return '<option value="' + esc(c) + '">'; }).join('') + '</datalist>' +
         '<div class="adm-list" style="margin-top:12px">' + data.works.map(function (w, i) {
           var id = youtubeId(w.youtube);
@@ -254,6 +260,13 @@
             field('크레딧 (엔터로 줄바꿈)', 'works.' + i + '.credit', w.credit, 'textarea') +
             tools('works', i, data.works.length) + '</div></div>';
         }).join('') + '</div>';
+    } else if (tab === 'settings') {
+      h = '<div class="adm-card"><h2>비밀번호 바꾸기</h2>' +
+        '<label>새 비밀번호 (10자 이상)<input type="password" id="pw-new" autocomplete="new-password"></label>' +
+        '<label>새 비밀번호 확인<input type="password" id="pw-new2" autocomplete="new-password"></label>' +
+        '<button type="button" class="adm-btn" id="pw-change">바꾸기</button>' +
+        '<p class="adm-msg" id="pw-msg"></p>' +
+        '<p class="adm-help">바꾼 뒤 1~2분 지나면 새 비밀번호로 로그인해요. 지금 로그인은 그대로 유지돼요.</p></div>';
     } else {
       h = '<p class="adm-help">사진은 올리면 자동으로 정사각형으로 잘리고 작게 줄여져요.</p>' +
         '<div class="adm-list">' + data.collabs.map(function (c, i) {
@@ -267,6 +280,19 @@
         '<button type="button" class="adm-btn ghost adm-add" data-act="add" data-kind="collabs">+ 아티스트 추가</button>';
     }
     $('panel').innerHTML = h;
+  }
+
+  // 포트폴리오 자동 정렬: 가격표 옵션 순서(Light → Standard → Premium → Wallpaper)대로, 같은 카테고리 안의 순서는 유지
+  function catRank(w) {
+    var order = (data.price && data.price.options || []).map(function (o) { return o.name; });
+    var r = order.indexOf(String(w.category || '').trim());
+    return r < 0 ? order.length : r;
+  }
+  function sortWorks() {
+    var sorted = data.works.map(function (w, j) { return { w: w, j: j }; })
+      .sort(function (a, b) { return catRank(a.w) - catRank(b.w) || a.j - b.j; })
+      .map(function (x) { return x.w; });
+    data.works.splice.apply(data.works, [0, data.works.length].concat(sorted));
   }
 
   // 입력: data-path 가 가리키는 곳에 값 저장
@@ -305,6 +331,32 @@
     render();
   });
 
+  // 비밀번호 바꾸기: 지금 풀려 있는 토큰을 새 비밀번호로 다시 잠가 저장
+  $('panel').addEventListener('click', async function (e) {
+    if (e.target.id !== 'pw-change') return;
+    var pw = $('pw-new').value, pw2 = $('pw-new2').value;
+    if (pw.length < 10) return msg('pw-msg', '비밀번호는 10자 이상으로 정해 주세요.', 'err');
+    if (pw !== pw2) return msg('pw-msg', '비밀번호 확인이 맞지 않아요.', 'err');
+    e.target.disabled = true;
+    msg('pw-msg', '바꾸는 중...');
+    try {
+      var blob = await encryptToken(token, pw);
+      var old = await getFile(KEY_FILE);
+      await putFile(KEY_FILE, utf8ToB64(JSON.stringify(blob, null, 2) + '\n'), 'Change admin password', old.sha);
+      $('pw-new').value = $('pw-new2').value = '';
+      msg('pw-msg', '바꿨어요. 다음 로그인부터 새 비밀번호를 써 주세요.', 'ok');
+    } catch (err) {
+      msg('pw-msg', err.status === 401 ? '로그인이 만료됐어요. 다시 로그인해 주세요.' : '바꾸지 못했어요. (' + err.message + ')', 'err');
+    }
+    e.target.disabled = false;
+  });
+
+  // 카테고리 입력을 마치면 제자리로 이동
+  $('panel').addEventListener('change', function (e) {
+    var path = e.target.getAttribute('data-path') || '';
+    if (/^works\.\d+\.category$/.test(path)) { sortWorks(); render(); }
+  });
+
   // 사진 올리기
   $('panel').addEventListener('change', function (e) {
     var kind = e.target.getAttribute('data-img');
@@ -340,6 +392,7 @@
         await putFile(paths[i], pending[paths[i]], 'Upload image via admin');
         delete pending[paths[i]];
       }
+      sortWorks();
       var res = await putFile(DATA_FILE, utf8ToB64(JSON.stringify(data, null, 2) + '\n'), 'Update content via admin', cur.sha);
       loadedSha = res.content.sha;
       setDirty(false);

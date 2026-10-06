@@ -45,6 +45,7 @@ img.adm-avatar { background: #fff; }
 .adm-file { display: inline-block !important; }
 .adm-file input { display: none; }
 .adm-add { margin-top: 12px; }
+.adm-tools .adm-btn { padding: 8px 18px; font-size: 13px; }
 
 .adm-save { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; gap: 14px; padding: 12px 16px; background: rgba(255, 255, 255, .95); border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(0, 0, 0, .06); }
 

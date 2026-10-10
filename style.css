@@ -195,14 +195,17 @@ a.collab-card:hover .collab-link { color: var(--wine); }
   .about { flex-direction: column; text-align: center; padding: 24px 16px; }
   .apply { padding: 20px 16px; }
   .tags { justify-content: center; }
-  .grid { grid-template-columns: 1fr; }
-  .plans { grid-template-columns: 1fr; }
   .addons { padding: 16px 16px 6px; }
   .collab { padding: 0 36px; }
   .collab-track { grid-auto-columns: calc((100% - 16px) / 2); }
   .addons-list { column-gap: 16px; }
   .addons-note { margin-left: 0; width: 100%; }
   .nav { gap: 16px; }
+}
+/* 휴대폰: 카드를 한 줄에 하나씩 (아트머그 PC 본문처럼 좁은 틀에서는 2열 유지) */
+@media (max-width: 460px) {
+  .grid { grid-template-columns: 1fr; }
+  .plans { grid-template-columns: 1fr; }
 }
 /* 터치 화면(마우스 없음)에서는 제목을 항상 표시 */
 @media (hover: none) { .card-info { opacity: 1; } }

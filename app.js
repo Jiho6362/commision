@@ -149,7 +149,10 @@
   // 공용 모델(미리 만들어 둔 판매 모델): 있을 때만 표시
   var statusClass = function (st) { return st === '판매완료' ? 'sold' : st === '예약중' ? 'hold' : 'sale'; };
   var sharedHtml = '<div class="collab shop-row"><button type="button" class="collab-nav prev" aria-label="이전">‹</button>' +
-    '<div class="collab-track">' + models.map(function (m, i) {
+    '<div class="collab-track">' + (models.length ? '' : [0, 1, 2].map(function () {
+      return '<div class="shop-card shop-blank"><span class="shop-img"><span>비어있음</span></span>' +
+        '<span class="shop-body"><span class="shop-name">&nbsp;</span></span></div>';
+    }).join('')) + models.map(function (m, i) {
       var img = (m.images || [])[0];
       var id = youtubeId(m.youtube);
       var thumb = img || (id ? 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' : '');
@@ -161,10 +164,8 @@
     }).join('') + '</div><button type="button" class="collab-nav next" aria-label="다음">›</button></div>';
 
   html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
-    (models.length
-      ? psub('READY-MADE', shared.label || '공용 모델', shared.intro) + sharedHtml +
-        psub('CUSTOM', price.label || '오리지널 모델', price.intro) + originalHtml
-      : originalHtml) +
+    psub('READY-MADE', shared.label || '공용 모델', shared.intro) + sharedHtml +
+    psub('CUSTOM', price.label || '오리지널 모델', price.intro) + originalHtml +
     '</section>';
 
   // 4. Apply (신청 양식): options 가 있으면 선택 버튼, 없으면 입력칸

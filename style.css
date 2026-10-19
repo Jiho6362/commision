@@ -173,6 +173,10 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 .shop-status.sold { background: #8a8486; }
 .shop-img .shop-status { position: absolute; top: 10px; left: 10px; }
 
+.shop-blank, .shop-blank:hover { cursor: default; transform: none; box-shadow: none; border-style: dashed; background: var(--soft); }
+.shop-blank .shop-img { background: var(--soft); display: flex; align-items: center; justify-content: center; }
+.shop-blank .shop-img span { font-size: 13px; color: var(--sub); }
+
 /* 공용 모델 상세 창 (작업물 창과 같은 반투명 스타일) */
 .shop-box { grid-template-columns: 1fr 300px; align-items: start; }
 .shop-tabs { display: flex; gap: 6px; margin-bottom: 10px; }

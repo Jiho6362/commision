@@ -375,7 +375,7 @@
       delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
-      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], types: typeNames(), credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', price: '가격 미정', status: '판매중', youtube: '', video: '', images: [], types: typeNames(), credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);

@@ -65,6 +65,21 @@
     '<div class="tags">' + (about.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
     '</div></div></section>';
 
+  // Notice (공지사항): 왼쪽 번호 목록, 오른쪽 사용 및 결제 등 묶음
+  var notice = C.notice || {};
+  if ((notice.items || []).length || (notice.groups || []).length) {
+    html += '<section class="section" id="notice"><h2 class="title serif">Notice</h2><div class="notice-wrap">' +
+      '<div class="notice-main"><ol class="notice-list">' + (notice.items || []).map(function (it, i) {
+        return '<li><span class="notice-no serif">' + (i < 9 ? '0' : '') + (i + 1) + '</span><div><p>' + esc(it.text) + '</p>' +
+          (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></li>';
+      }).join('') + '</ol>' +
+      (notice.footer ? '<p class="notice-foot">' + esc(notice.footer) + '</p>' : '') + '</div>' +
+      '<div class="notice-side">' + (notice.groups || []).map(function (g) {
+        return '<div class="notice-group"><b>' + esc(g.title) + '</b><ul>' +
+          (g.items || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div></div></section>';
+  }
+
   // 2. Portfolio
   html += '<section class="section" id="portfolio"><h2 class="title serif">Portfolio</h2>';
   if (cats.length > 1) {
@@ -200,6 +215,8 @@
       }
       return '<li><b>' + esc(f.label) + '</b>' + control + '</li>';
     }).join('') + '</ul>' +
+    (notice.agree ? '<label class="apply-agree"><input type="checkbox" id="apply-agree"> <span>' + esc(notice.agree) + '</span> <a href="#notice">공지 보기</a></label>' +
+      '<p class="apply-agree-msg" id="apply-agree-msg" hidden>공지사항 동의에 체크해 주세요.</p>' : '') +
     '<button type="button" class="apply-copy" id="apply-copy">양식 복사하기</button></div></section>';
 
   app.innerHTML = html;
@@ -325,11 +342,17 @@
   // 신청 양식 복사: 고르고 적은 내용을 양식 형태로 복사
   var copyBtn = document.getElementById('apply-copy');
   if (copyBtn) {
+    var agree = document.getElementById('apply-agree');
+    if (agree) agree.addEventListener('change', function () { document.getElementById('apply-agree-msg').hidden = true; });
     copyBtn.addEventListener('click', function () {
+      if (agree && !agree.checked) {   // 공지 동의 전에는 복사하지 않음
+        document.getElementById('apply-agree-msg').hidden = false;
+        return;
+      }
       var applyText = fields.map(function (f, i) {
         var v = answers[i].trim();
         return '■ ' + f.label + ' : ' + (v.indexOf('\n') >= 0 ? '\n' + v : v);
-      }).join('\n');
+      }).join('\n') + (agree ? '\n■ 공지사항 확인 : 동의' : '');
       var done = function () {
         copyBtn.textContent = '복사되었어요 ✓';
         copyBtn.classList.add('done');

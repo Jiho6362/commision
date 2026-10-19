@@ -180,25 +180,34 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 .shop-blank .shop-body { display: none; }
 
 /* 공용 모델 상세 창: 가로로 긴 창에 사진 | 영상 | 정보 */
-.shop-box { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 270px; align-items: start; max-width: 1320px; }
-.shop-box.no-video, .shop-box.no-photo { grid-template-columns: minmax(0, 1fr) 270px; }
-.shop-box.no-video.no-photo { grid-template-columns: 1fr; }
+.shop-box { display: block; max-width: 1200px; }
+/* 위: 사진(4:5) + 영상(16:9), 같은 높이가 되도록 폭 비율 4 : 8.9 */
+.shop-media { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8.9fr); gap: 16px; align-items: start; }
+.shop-box.no-video .shop-media { grid-template-columns: minmax(0, 1fr); max-width: 420px; margin: 0 auto; }
+.shop-box.no-photo .shop-media { grid-template-columns: minmax(0, 1fr); }
 .shop-col[hidden] { display: none; }
-.shop-stage { height: min(58vh, 520px); background: rgba(0, 0, 0, .35); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.shop-stage { background: rgba(0, 0, 0, .35); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.shop-stage.photo { aspect-ratio: 4 / 5; }
+.shop-stage.wide { aspect-ratio: 16 / 9; }
 .shop-stage img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
 .shop-stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
 .shop-stage video[hidden], .shop-stage .video[hidden] { display: none; }
-.shop-stage .video { width: 100%; }
+.shop-stage .video { width: 100%; height: 100%; aspect-ratio: auto; }
+/* 아래: 정보 줄 */
+.shop-info { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr) minmax(0, 1.1fr) 200px; gap: 24px; align-items: start; margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .2); }
+.shop-info h3 { margin: 6px 0 2px; font-size: 22px; font-weight: 500; line-height: 1.35; }
+.shop-info .detail-label { padding-top: 0; border-top: 0; }
+.shop-info .detail-label small { letter-spacing: 0; color: rgba(255, 255, 255, .55); }
 .shop-thumbs { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .shop-thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: .55; border: 2px solid transparent; }
 .shop-thumbs img.on { opacity: 1; border-color: var(--gold); }
-.shop-opts { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.shop-opts li { font-size: 12px; padding: 3px 10px; border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; color: rgba(255, 255, 255, .92); }
+.shop-opts { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.shop-opt { font-size: 12px; padding: 4px 12px; border: 1px solid rgba(255, 255, 255, .35); background: none; border-radius: 999px; color: rgba(255, 255, 255, .92); cursor: pointer; transition: all .2s; }
+.shop-opt:hover { border-color: #fff; }
+.shop-opt.on { background: #fff; border-color: #fff; color: var(--wine-dark); font-weight: 700; }
 #shop-opt-wrap[hidden] { display: none; }
-.shop .detail .detail-label { margin-top: 14px; }
-.shop-detail-price { margin: 6px 0 0; font-size: 22px; font-weight: 700; color: #fff; }
-.shop .detail h3 { margin-bottom: 4px; }
-.shop-apply { display: block; width: 100%; margin-top: 20px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; cursor: pointer; }
+.shop-detail-price { margin: 4px 0 0; font-size: 18px; font-weight: 700; color: #f1dcb4; }
+.shop-apply { display: block; width: 100%; margin-top: 18px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; cursor: pointer; }
 .shop-apply:disabled { background: rgba(255, 255, 255, .2); cursor: default; }
 
 /* 3. Price - 추가 옵션 */
@@ -243,8 +252,9 @@ a.collab-card:hover .collab-link { color: var(--wine); }
   .collab-track { grid-auto-columns: calc((100% - 32px) / 3); }
   .modal-box { grid-template-columns: 1fr; gap: 16px; padding: 44px 16px 20px; }
   .shop-row .collab-track { grid-auto-columns: calc((100% - 16px) / 2); }
-  .shop-box, .shop-box.no-video, .shop-box.no-photo { grid-template-columns: 1fr; }
-  .shop-stage { height: auto; max-height: 55vh; }
+  .shop-media { grid-template-columns: 1fr; }
+  .shop-info { grid-template-columns: 1fr; gap: 14px; }
+  .shop-stage.photo { max-height: 55vh; aspect-ratio: auto; height: 55vh; }
 }
 @media (max-width: 560px) {
   .about { flex-direction: column; text-align: center; padding: 24px 16px; }

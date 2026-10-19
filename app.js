@@ -452,8 +452,11 @@
     st.textContent = m.status || '';
     st.className = 'shop-status ' + statusClass(m.status);
     document.getElementById('shop-name').textContent = m.name || '';
-    var opts = String(m.options || '').split('\n').map(function (t) { return t.trim(); }).filter(Boolean);
-    document.getElementById('shop-opts').innerHTML = opts.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    // 고를 수 있는 타입 (관리자에서 모델마다 정함. 없으면 Wallpaper 를 뺀 가격표 옵션 전부)
+    var opts = (m.types && m.types.length ? m.types : options.map(function (o) { return o.name; }).filter(function (n) { return n !== 'Wallpaper'; }));
+    document.getElementById('shop-opts').innerHTML = opts.map(function (t) {
+      return '<button type="button" class="shop-opt" aria-pressed="false">' + esc(t) + '</button>';
+    }).join('');
     document.getElementById('shop-opt-wrap').hidden = !opts.length;
     document.getElementById('shop-credit').textContent = m.credit || '';
     document.getElementById('shop-price').textContent = m.price || '';
@@ -488,6 +491,15 @@
       c.addEventListener('click', function () { openShop(c); });
     });
     shop.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeShop); });
+    // 타입: 하나만 선택, 다시 누르면 취소
+    document.getElementById('shop-opts').addEventListener('click', function (e) {
+      var b = e.target.closest('.shop-opt');
+      if (!b) return;
+      var on = !b.classList.contains('on');
+      shop.querySelectorAll('.shop-opt').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on);
+    });
     document.getElementById('shop-thumbs').addEventListener('click', function (e) {
       if (e.target.tagName === 'IMG') shopPhoto(e.target.getAttribute('src'));
     });
@@ -501,7 +513,11 @@
       fields.forEach(function (f, i) {
         if (f.key === 'sharedModel') {
           var el = app.querySelector('.apply-input[data-f="' + i + '"]');
-          if (el) { el.value = shopModel.name || ''; el.dispatchEvent(new Event('input')); }
+          var picked = Array.prototype.map.call(shop.querySelectorAll('.shop-opt.on'), function (b) { return b.textContent; });
+          if (el) {
+            el.value = (shopModel.name || '') + (picked.length ? ' / 타입: ' + picked[0] : '');
+            el.dispatchEvent(new Event('input'));
+          }
         }
       });
       closeShop();

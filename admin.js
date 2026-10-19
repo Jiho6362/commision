@@ -292,7 +292,10 @@
             (m.video ? '<span class="adm-help">' + esc(String(m.video).split('/').pop()) + '</span>' +
               '<button type="button" data-act="rmvideo" data-kind="models" data-i="' + i + '">영상 빼기</button>' : '') +
             '<label class="adm-file">' + (m.video ? '영상 바꾸기' : '+ 영상 올리기') + '<input type="file" accept="video/mp4" data-img="modelvideo" data-i="' + i + '"></label></div>' +
-            field('옵션 (한 줄에 하나씩, 예: 표정 5종 / VBridger)', base + 'options', m.options, 'textarea') +
+            '<label>고를 수 있는 타입</label><div class="adm-tools">' + typeNames().map(function (t) {
+              var on = (m.types || typeNames()).indexOf(t) >= 0;
+              return '<label class="adm-check"><input type="checkbox" data-type="' + esc(t) + '" data-i="' + i + '"' + (on ? ' checked' : '') + '> ' + esc(t) + '</label>';
+            }).join('') + '</div>' +
             field('크레딧 (엔터로 줄바꿈)', base + 'credit', m.credit, 'textarea') +
             '<label>사진</label><div class="adm-tools">' + (m.images || []).map(function (src, j) {
               return '<span class="adm-pic"><img src="' + esc(imgSrc(src)) + '" alt=""><button type="button" data-act="rmimg" data-kind="models" data-i="' + i + '" data-j="' + j + '" title="사진 빼기">×</button></span>';
@@ -372,7 +375,7 @@
       delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
-      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], options: '', credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], types: typeNames(), credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);
@@ -397,6 +400,22 @@
       msg('pw-msg', err.status === 401 ? '로그인이 만료됐어요. 다시 로그인해 주세요.' : '바꾸지 못했어요. (' + err.message + ')', 'err');
     }
     e.target.disabled = false;
+  });
+
+  // 공용 모델 타입 목록 (가격표 옵션 중 Wallpaper 제외)
+  function typeNames() {
+    return (data.price && data.price.options || []).map(function (o) { return o.name; }).filter(function (n) { return n !== 'Wallpaper'; });
+  }
+  // 타입 체크박스
+  $('panel').addEventListener('change', function (e) {
+    var t = e.target.getAttribute('data-type');
+    if (!t) return;
+    var m = data.shared.models[+e.target.getAttribute('data-i')];
+    var cur = (m.types || typeNames()).slice();
+    if (e.target.checked && cur.indexOf(t) < 0) cur.push(t);
+    if (!e.target.checked) cur = cur.filter(function (x) { return x !== t; });
+    m.types = typeNames().filter(function (x) { return cur.indexOf(x) >= 0; });
+    setDirty(true);
   });
 
   // 카테고리 입력을 마치면 제자리로 이동

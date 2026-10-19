@@ -294,7 +294,6 @@
     "models": [
       {
         "name": "샘플 모델 1",
-        "price": "가격 미정",
         "status": "판매중",
         "youtube": "",
         "video": "images/shared/sample1.mp4",
@@ -302,8 +301,11 @@
           "images/shared/sample1.jpg"
         ],
         "credit": "Illustrated by 108\nRigged by 4ki",
-        "types": [
-          "Premium"
+        "tiers": [
+          {
+            "type": "Premium",
+            "price": "가격 미정"
+          }
         ]
       }
     ]

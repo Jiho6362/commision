@@ -146,6 +146,21 @@
       (intro ? '<p class="psub-intro pre">' + esc(intro) + '</p>' : '') + '</div>';
   }
 
+  // 공용 모델의 작업된 타입과 타입별 가격. tiers: [{ type, price }]
+  function tiersOf(m) {
+    if (m.tiers && m.tiers.length) return m.tiers;
+    var names = m.types && m.types.length ? m.types : options.map(function (o) { return o.name; }).filter(function (n) { return n !== 'Wallpaper'; });
+    return names.map(function (t) { return { type: t, price: m.price || '' }; });
+  }
+  // 카드에 보일 가격: 가장 낮은 가격 + '~' (숫자가 없으면 '가격 미정')
+  function fromPrice(m) {
+    var ps = tiersOf(m).map(function (t) { return { text: t.price, n: parseInt(String(t.price || '').replace(/[^0-9]/g, ''), 10) }; })
+      .filter(function (p) { return p.n > 0; });
+    if (!ps.length) return '가격 미정';
+    ps.sort(function (a, b) { return a.n - b.n; });
+    return ps[0].text + (ps.length > 1 || tiersOf(m).length > 1 ? '~' : '');
+  }
+
   // 공용 모델(미리 만들어 둔 판매 모델): 있을 때만 표시
   var statusClass = function (st) { return st === '판매완료' ? 'sold' : st === '예약중' ? 'hold' : 'sale'; };
   var sharedHtml = '<div class="collab shop-row"><button type="button" class="collab-nav prev" aria-label="이전">‹</button>' +
@@ -160,7 +175,7 @@
         '<span class="shop-img">' + (thumb ? '<img src="' + esc(thumb) + '" alt="" loading="lazy">' : '') +
         (m.status ? '<span class="shop-status ' + statusClass(m.status) + '">' + esc(m.status) + '</span>' : '') + '</span>' +
         '<span class="shop-body"><span class="shop-name serif">' + esc(m.name) + '</span>' +
-        '<span class="shop-price">' + esc(m.price) + '</span></span></button>';
+        '<span class="shop-price">' + esc(fromPrice(m)) + '</span></span></button>';
     }).join('') + '</div><button type="button" class="collab-nav next" aria-label="다음">›</button></div>';
 
   html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
@@ -442,6 +457,14 @@
     }
   }
 
+  function selectTier(b, on) {
+    shop.querySelectorAll('.shop-opt').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+    var t = tiersOf(shopModel)[+b.getAttribute('data-t')];
+    document.getElementById('shop-price').textContent = on ? (t.price || '가격 미정') : fromPrice(shopModel);
+  }
+
   function openShop(card) {
     var m = models[+card.getAttribute('data-m')];
     var imgs = m.images || [];
@@ -452,14 +475,16 @@
     st.textContent = m.status || '';
     st.className = 'shop-status ' + statusClass(m.status);
     document.getElementById('shop-name').textContent = m.name || '';
-    // 고를 수 있는 타입 (관리자에서 모델마다 정함. 없으면 Wallpaper 를 뺀 가격표 옵션 전부)
-    var opts = (m.types && m.types.length ? m.types : options.map(function (o) { return o.name; }).filter(function (n) { return n !== 'Wallpaper'; }));
-    document.getElementById('shop-opts').innerHTML = opts.map(function (t) {
-      return '<button type="button" class="shop-opt" aria-pressed="false">' + esc(t) + '</button>';
+    // 작업된 타입과 타입별 가격 (관리자에서 모델마다 정함)
+    var tiers = tiersOf(m);
+    document.getElementById('shop-opts').innerHTML = tiers.map(function (t, j) {
+      return '<button type="button" class="shop-opt" data-t="' + j + '" aria-pressed="false">' + esc(t.type) +
+        '<small>' + esc(t.price || '가격 미정') + '</small></button>';
     }).join('');
-    document.getElementById('shop-opt-wrap').hidden = !opts.length;
+    document.getElementById('shop-opt-wrap').hidden = !tiers.length;
     document.getElementById('shop-credit').textContent = m.credit || '';
-    document.getElementById('shop-price').textContent = m.price || '';
+    document.getElementById('shop-price').textContent = fromPrice(m);
+    if (tiers.length === 1) selectTier(shop.querySelector('.shop-opt'), true);
     var btn = document.getElementById('shop-apply');
     btn.disabled = m.status === '판매완료';
     btn.textContent = m.status === '판매완료' ? '판매가 완료된 모델이에요' : '이 모델로 신청하기';
@@ -491,14 +516,10 @@
       c.addEventListener('click', function () { openShop(c); });
     });
     shop.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeShop); });
-    // 타입: 하나만 선택, 다시 누르면 취소
+    // 타입: 하나만 선택, 다시 누르면 취소. 고른 타입의 가격을 크게 보여 줌
     document.getElementById('shop-opts').addEventListener('click', function (e) {
       var b = e.target.closest('.shop-opt');
-      if (!b) return;
-      var on = !b.classList.contains('on');
-      shop.querySelectorAll('.shop-opt').forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
-      b.classList.toggle('on', on);
-      b.setAttribute('aria-pressed', on);
+      if (b) selectTier(b, !b.classList.contains('on'));
     });
     document.getElementById('shop-thumbs').addEventListener('click', function (e) {
       if (e.target.tagName === 'IMG') shopPhoto(e.target.getAttribute('src'));
@@ -513,7 +534,10 @@
       fields.forEach(function (f, i) {
         if (f.key === 'sharedModel') {
           var el = app.querySelector('.apply-input[data-f="' + i + '"]');
-          var picked = Array.prototype.map.call(shop.querySelectorAll('.shop-opt.on'), function (b) { return b.textContent; });
+          var picked = Array.prototype.map.call(shop.querySelectorAll('.shop-opt.on'), function (b) {
+            var t = tiersOf(shopModel)[+b.getAttribute('data-t')];
+            return t.type + (t.price ? ' (' + t.price + ')' : '');
+          });
           if (el) {
             el.value = (shopModel.name || '') + (picked.length ? ' / 타입: ' + picked[0] : '');
             el.dispatchEvent(new Event('input'));

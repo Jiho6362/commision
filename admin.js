@@ -284,7 +284,7 @@
           return '<div class="adm-item"><div>' +
             (first ? '<img class="adm-avatar" style="border-radius:6px" src="' + esc(imgSrc(first)) + '" alt="">' : '<span class="adm-avatar" style="border-radius:6px"></span>') +
             '</div><div class="adm-fields">' +
-            '<div class="adm-row2">' + field('모델 이름', base + 'name', m.name) + field('가격', base + 'price', m.price) + '</div>' +
+            field('모델 이름', base + 'name', m.name) +
             '<div class="adm-row2"><label>판매 상태<select data-path="' + base + 'status">' +
             ['판매중', '예약중', '판매완료'].map(function (o) { return '<option' + (m.status === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
             '</select></label>' + field('유튜브 주소 (화질이 가장 좋아요, 있으면 우선 재생)', base + 'youtube', m.youtube) + '</div>' +
@@ -292,9 +292,10 @@
             (m.video ? '<span class="adm-help">' + esc(String(m.video).split('/').pop()) + '</span>' +
               '<button type="button" data-act="rmvideo" data-kind="models" data-i="' + i + '">영상 빼기</button>' : '') +
             '<label class="adm-file">' + (m.video ? '영상 바꾸기' : '+ 영상 올리기') + '<input type="file" accept="video/mp4" data-img="modelvideo" data-i="' + i + '"></label></div>' +
-            '<label>고를 수 있는 타입</label><div class="adm-tools">' + typeNames().map(function (t) {
-              var on = (m.types || typeNames()).indexOf(t) >= 0;
-              return '<label class="adm-check"><input type="checkbox" data-type="' + esc(t) + '" data-i="' + i + '"' + (on ? ' checked' : '') + '> ' + esc(t) + '</label>';
+            '<label>작업된 타입과 가격 (체크한 타입만 사이트에 보여요)</label><div class="adm-tiers">' + typeNames().map(function (t) {
+              var tier = tiersOfModel(m).filter(function (x) { return x.type === t; })[0];
+              return '<div class="adm-tier"><label class="adm-check"><input type="checkbox" data-tier="' + esc(t) + '" data-i="' + i + '"' + (tier ? ' checked' : '') + '> ' + esc(t) + '</label>' +
+                '<input type="text" data-tier-price="' + esc(t) + '" data-i="' + i + '" value="' + esc(tier ? tier.price : '') + '" placeholder="가격 미정"' + (tier ? '' : ' disabled') + '></div>';
             }).join('') + '</div>' +
             field('크레딧 (엔터로 줄바꿈)', base + 'credit', m.credit, 'textarea') +
             '<label>사진</label><div class="adm-tools">' + (m.images || []).map(function (src, j) {
@@ -375,7 +376,7 @@
       delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
-      else if (kind === 'models') list.unshift({ name: '', price: '가격 미정', status: '판매중', youtube: '', video: '', images: [], types: typeNames(), credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', status: '판매중', youtube: '', video: '', images: [], tiers: typeNames().map(function (t) { return { type: t, price: '가격 미정' }; }), credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);
@@ -406,15 +407,39 @@
   function typeNames() {
     return (data.price && data.price.options || []).map(function (o) { return o.name; }).filter(function (n) { return n !== 'Wallpaper'; });
   }
-  // 타입 체크박스
+  // 모델의 작업된 타입 목록 (예전 형식 types/price 도 읽음)
+  function tiersOfModel(m) {
+    if (!m.tiers) {
+      m.tiers = (m.types && m.types.length ? m.types : typeNames()).map(function (t) { return { type: t, price: m.price || '가격 미정' }; });
+      delete m.types;
+      delete m.price;
+    }
+    return m.tiers;
+  }
+  // 타입 체크 / 타입별 가격 입력
   $('panel').addEventListener('change', function (e) {
-    var t = e.target.getAttribute('data-type');
+    var t = e.target.getAttribute('data-tier');
     if (!t) return;
     var m = data.shared.models[+e.target.getAttribute('data-i')];
-    var cur = (m.types || typeNames()).slice();
-    if (e.target.checked && cur.indexOf(t) < 0) cur.push(t);
-    if (!e.target.checked) cur = cur.filter(function (x) { return x !== t; });
-    m.types = typeNames().filter(function (x) { return cur.indexOf(x) >= 0; });
+    var tiers = tiersOfModel(m);
+    var priceEl = e.target.closest('.adm-tier').querySelector('[data-tier-price]');
+    if (e.target.checked) {
+      if (!tiers.some(function (x) { return x.type === t; })) tiers.push({ type: t, price: priceEl.value || '가격 미정' });
+      priceEl.disabled = false;
+      if (!priceEl.value) priceEl.value = '가격 미정';
+    } else {
+      m.tiers = tiers.filter(function (x) { return x.type !== t; });
+      priceEl.disabled = true;
+    }
+    var order = typeNames();
+    m.tiers.sort(function (a, b) { return order.indexOf(a.type) - order.indexOf(b.type); });
+    setDirty(true);
+  });
+  $('panel').addEventListener('input', function (e) {
+    var t = e.target.getAttribute('data-tier-price');
+    if (!t) return;
+    var m = data.shared.models[+e.target.getAttribute('data-i')];
+    tiersOfModel(m).forEach(function (x) { if (x.type === t) x.price = e.target.value; });
     setDirty(true);
   });
 
@@ -472,6 +497,8 @@
     var btn = this;
     var badModel = data.shared.models.filter(function (m) { return !String(m.name || '').trim(); }).length;
     if (badModel) return msg('save-msg', '이름이 빈 판매 모델이 있어요. 이름을 넣거나 삭제해 주세요.', 'err');
+    var noTier = data.shared.models.filter(function (m) { return !tiersOfModel(m).length; }).map(function (m) { return m.name; });
+    if (noTier.length) return msg('save-msg', '"' + noTier[0] + '"에 작업된 타입이 없어요. 타입을 하나 이상 체크해 주세요.', 'err');
     var bad = data.collabs.filter(function (c) { return !String(c.name || '').trim(); }).length;
     if (bad) return msg('save-msg', '이름이 빈 아티스트가 있어요. 이름을 넣거나 삭제해 주세요.', 'err');
     btn.disabled = true;

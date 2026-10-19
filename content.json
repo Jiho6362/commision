@@ -251,8 +251,14 @@
           "Light",
           "Standard",
           "Premium",
-          "Wallpaper"
+          "Wallpaper",
+          "공용 모델"
         ]
+      },
+      {
+        "label": "공용 모델 이름",
+        "key": "sharedModel",
+        "placeholder": "공용 모델을 신청할 때만 적어 주세요"
       },
       {
         "label": "모델 용도",
@@ -279,5 +285,10 @@
         "placeholder": "참고 링크나 요청 사항을 자유롭게 적어 주세요"
       }
     ]
+  },
+  "shared": {
+    "label": "공용 모델",
+    "intro": "콜라보·공용 일러스트로 미리 만들어 둔 모델이에요. 마음에 드는 모델이 있으면 바로 신청할 수 있어요.",
+    "models": []
   }
 }

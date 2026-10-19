@@ -149,6 +149,50 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 .pop-desc:empty { display: none; }
 .pop-apply { display: block; width: 100%; margin-top: 22px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; letter-spacing: .04em; cursor: pointer; transition: opacity .2s; }
 .pop-apply:hover { opacity: .88; }
+/* 3. Price - 탭 (오리지널 모델 / 공용 모델) */
+.ptabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+.ptab { padding: 8px 22px; border: 1px solid var(--line); background: var(--bg); border-radius: 999px; font-size: 14px; color: var(--sub); cursor: pointer; transition: all .2s; }
+.ptab:hover { border-color: var(--wine); color: var(--wine); }
+.ptab.on { background: linear-gradient(135deg, var(--wine), var(--wine-dark)); border-color: var(--wine); color: #fff; }
+.ptab-panel[hidden] { display: none; }
+
+/* 3. Price - 공용 모델 카드 */
+.shop-intro { text-align: center; color: var(--sub); margin: -6px 0 20px; font-size: 14px; }
+.shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.shop-card { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--bg); cursor: pointer; text-align: left; box-shadow: 0 2px 10px rgba(74, 22, 33, .06); transition: transform .25s, box-shadow .25s, border-color .25s; }
+.shop-card:hover, .shop-card:focus-visible { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 12px 28px rgba(74, 22, 33, .14); outline: none; }
+.shop-img { position: relative; display: block; aspect-ratio: 1 / 1; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); }
+.shop-img img { width: 100%; height: 100%; object-fit: cover; }
+.shop-card.is-sold .shop-img img { filter: grayscale(.7) brightness(.85); }
+.shop-body { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 12px 14px 14px; }
+.shop-name { font-size: 17px; font-weight: 700; color: var(--wine-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shop-price { font-size: 14px; font-weight: 700; color: var(--wine); white-space: nowrap; }
+.shop-status { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #fff; background: var(--wine); }
+.shop-status:empty { display: none; }
+.shop-status.hold { background: var(--gold); }
+.shop-status.sold { background: #8a8486; }
+.shop-img .shop-status { position: absolute; top: 10px; left: 10px; }
+
+/* 공용 모델 상세 창 (작업물 창과 같은 반투명 스타일) */
+.shop-box { grid-template-columns: 1fr 300px; align-items: start; }
+.shop-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.shop-tabs[hidden], .shop-tab[hidden] { display: none; }
+.shop-tab { padding: 5px 16px; border: 1px solid rgba(255, 255, 255, .35); background: none; border-radius: 999px; color: rgba(255, 255, 255, .8); font-size: 13px; cursor: pointer; }
+.shop-tab.on { background: #fff; color: var(--wine-dark); border-color: #fff; }
+.shop-stage { background: rgba(0, 0, 0, .35); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 240px; }
+.shop-stage img { max-width: 100%; max-height: 62vh; object-fit: contain; }
+.shop-stage img[hidden], .shop-stage .video[hidden] { display: none; }
+.shop-stage .video { width: 100%; }
+.shop-thumbs { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.shop-thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: .55; border: 2px solid transparent; }
+.shop-thumbs img.on { opacity: 1; border-color: var(--gold); }
+.shop-desc { margin: 0 0 16px; font-size: 14px; line-height: 1.8; color: rgba(255, 255, 255, .9); white-space: pre-line; word-break: keep-all; }
+.shop-desc:empty { display: none; }
+.shop .detail .detail-label { margin-top: 14px; }
+.shop-detail-price { margin: 6px 0 0; font-size: 22px; font-weight: 700; color: #fff; }
+.shop-apply { display: block; width: 100%; margin-top: 20px; padding: 12px 0; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: #fff; font-size: 14px; cursor: pointer; }
+.shop-apply:disabled { background: rgba(255, 255, 255, .2); cursor: default; }
+
 /* 3. Price - 추가 옵션 */
 .addons { margin-top: 24px; padding: 18px 24px 8px; background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
 .addons-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 6px; }
@@ -190,6 +234,7 @@ a.collab-card:hover .collab-link { color: var(--wine); }
   .addons-list { grid-template-columns: repeat(2, 1fr); }
   .collab-track { grid-auto-columns: calc((100% - 32px) / 3); }
   .modal-box { grid-template-columns: 1fr; gap: 16px; padding: 44px 16px 20px; }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
   .about { flex-direction: column; text-align: center; padding: 24px 16px; }
@@ -205,6 +250,7 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 /* 휴대폰: 카드를 한 줄에 하나씩 (아트머그 PC 본문처럼 좁은 틀에서는 2열 유지) */
 @media (max-width: 460px) {
   .grid { grid-template-columns: 1fr; }
+  .shop-grid { grid-template-columns: 1fr; }
   .plans { grid-template-columns: 1fr; }
 }
 /* 터치 화면(마우스 없음)에서는 제목을 항상 표시 */

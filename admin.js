@@ -160,6 +160,8 @@
     data.about = data.about || {};
     data.works = data.works || [];
     data.collabs = data.collabs || [];
+    data.shared = data.shared || { label: '공용 모델', intro: '', models: [] };
+    data.shared.models = data.shared.models || [];
     loadedSha = f.sha;
     sortWorks();
     pending = {};
@@ -178,18 +180,27 @@
     if (v) msg('save-msg', '저장하지 않은 변경 사항이 있어요.');
   }
 
-  // ---------- 사진 처리: 정사각형으로 자르고 줄이기 ----------
-  function processImage(file, size) {
+  // ---------- 사진 처리: 정사각형으로 자르고 줄이기 (fit 이면 비율 유지하며 긴 변을 size 로) ----------
+  function processImage(file, size, fit) {
     return new Promise(function (resolve, reject) {
       var img = new Image();
       img.onload = function () {
-        var m = Math.min(img.width, img.height);
         var c = document.createElement('canvas');
-        c.width = c.height = size;
         var ctx = c.getContext('2d');
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, size, size);
-        ctx.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, size, size);
+        if (fit) {
+          var k = Math.min(1, size / Math.max(img.width, img.height));
+          c.width = Math.round(img.width * k);
+          c.height = Math.round(img.height * k);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+        } else {
+          var m = Math.min(img.width, img.height);
+          c.width = c.height = size;
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, size, size);
+          ctx.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, size, size);
+        }
         URL.revokeObjectURL(img.src);
         resolve(c.toDataURL('image/jpeg', 0.9));
       };
@@ -197,9 +208,10 @@
       img.src = URL.createObjectURL(file);
     });
   }
-  async function attachImage(file, size, folder, assign) {
-    var url = await processImage(file, size);
-    var path = folder + Date.now() + '.jpg';
+  var uploadSeq = 0;
+  async function attachImage(file, size, folder, assign, fit) {
+    var url = await processImage(file, size, fit);
+    var path = folder + Date.now() + '-' + (uploadSeq++) + '.jpg';
     pending[path] = url.split(',')[1];
     previews[path] = url;
     assign(path);
@@ -260,6 +272,30 @@
             field('크레딧 (엔터로 줄바꿈)', 'works.' + i + '.credit', w.credit, 'textarea') +
             tools('works', i, data.works.length) + '</div></div>';
         }).join('') + '</div>';
+    } else if (tab === 'shared') {
+      var sh = data.shared;
+      h = '<div class="adm-item profile" style="grid-template-columns:1fr"><div class="adm-fields">' +
+        field('공용 모델 탭 안내 문구', 'shared.intro', sh.intro, 'textarea') + '</div></div>' +
+        '<p class="adm-help" style="margin-top:14px">판매 모델이 하나라도 있으면 사이트 Price 에 \'공용 모델\' 탭이 생겨요. 사진은 여러 장 올릴 수 있고, 첫 번째 사진이 카드 썸네일이 돼요.</p>' +
+        '<button type="button" class="adm-btn ghost adm-add" data-act="add" data-kind="models">+ 판매 모델 추가</button>' +
+        '<div class="adm-list" style="margin-top:12px">' + sh.models.map(function (m, i) {
+          var first = (m.images || [])[0];
+          var base = 'shared.models.' + i + '.';
+          return '<div class="adm-item"><div>' +
+            (first ? '<img class="adm-avatar" style="border-radius:6px" src="' + esc(imgSrc(first)) + '" alt="">' : '<span class="adm-avatar" style="border-radius:6px"></span>') +
+            '</div><div class="adm-fields">' +
+            '<div class="adm-row2">' + field('모델 이름', base + 'name', m.name) + field('가격', base + 'price', m.price) + '</div>' +
+            '<div class="adm-row2"><label>판매 상태<select data-path="' + base + 'status">' +
+            ['판매중', '예약중', '판매완료'].map(function (o) { return '<option' + (m.status === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
+            '</select></label>' + field('유튜브 주소 (선택)', base + 'youtube', m.youtube) + '</div>' +
+            field('설명 (엔터로 줄바꿈)', base + 'description', m.description, 'textarea') +
+            field('크레딧 (엔터로 줄바꿈)', base + 'credit', m.credit, 'textarea') +
+            '<label>사진</label><div class="adm-tools">' + (m.images || []).map(function (src, j) {
+              return '<span class="adm-pic"><img src="' + esc(imgSrc(src)) + '" alt=""><button type="button" data-act="rmimg" data-kind="models" data-i="' + i + '" data-j="' + j + '" title="사진 빼기">×</button></span>';
+            }).join('') +
+            '<label class="adm-file">+ 사진 추가<input type="file" accept="image/*" multiple data-img="model" data-i="' + i + '"></label></div>' +
+            tools('models', i, sh.models.length) + '</div></div>';
+        }).join('') + '</div>';
     } else if (tab === 'settings') {
       h = '<div class="adm-card"><h2>비밀번호 바꾸기</h2>' +
         '<label>새 비밀번호 (8자 이상)<input type="password" id="pw-new" autocomplete="new-password"></label>' +
@@ -316,15 +352,20 @@
   $('panel').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-act]');
     if (!b) return;
-    var kind = b.getAttribute('data-kind'), list = data[kind], i = +b.getAttribute('data-i'), act = b.getAttribute('data-act');
+    var kind = b.getAttribute('data-kind'), list = kind === 'models' ? data.shared.models : data[kind], i = +b.getAttribute('data-i'), act = b.getAttribute('data-act');
     if (act === 'up' && i > 0) list.splice(i - 1, 0, list.splice(i, 1)[0]);
     else if (act === 'down' && i < list.length - 1) list.splice(i + 1, 0, list.splice(i, 1)[0]);
     else if (act === 'del') {
-      var name = kind === 'works' ? (list[i].title || '이 작업물') : (list[i].name || '이 아티스트');
+      var name = kind === 'works' ? (list[i].title || '이 작업물') : kind === 'models' ? (list[i].name || '이 판매 모델') : (list[i].name || '이 아티스트');
       if (!confirm('"' + name + '"을(를) 삭제할까요? (저장해야 사이트에 반영돼요)')) return;
       list.splice(i, 1);
+    } else if (act === 'rmimg') {
+      var removed = list[i].images.splice(+b.getAttribute('data-j'), 1)[0];
+      delete pending[removed];   // 아직 안 올린 사진이면 올리지 않음
+      delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', images: [], description: '', credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);
@@ -362,6 +403,15 @@
     var kind = e.target.getAttribute('data-img');
     var file = e.target.files && e.target.files[0];
     if (!kind || !file) return;
+    if (kind === 'model') {
+      var m = data.shared.models[+e.target.getAttribute('data-i')];
+      m.images = m.images || [];
+      var files = Array.prototype.slice.call(e.target.files);
+      files.reduce(function (p, f) {
+        return p.then(function () { return attachImage(f, 1400, 'images/shared/', function (path) { m.images.push(path); }, true); });
+      }, Promise.resolve()).catch(function (err) { alert(err.message); });
+      return;
+    }
     var p = kind === 'profile'
       ? attachImage(file, 480, 'images/profile-', function (path) { data.about.image = path; })
       : attachImage(file, 240, 'images/collab/', function (path) { data.collabs[+e.target.getAttribute('data-i')].image = path; });
@@ -375,6 +425,8 @@
   // ---------- 저장 ----------
   $('save').addEventListener('click', async function () {
     var btn = this;
+    var badModel = data.shared.models.filter(function (m) { return !String(m.name || '').trim(); }).length;
+    if (badModel) return msg('save-msg', '이름이 빈 판매 모델이 있어요. 이름을 넣거나 삭제해 주세요.', 'err');
     var bad = data.collabs.filter(function (c) { return !String(c.name || '').trim(); }).length;
     if (bad) return msg('save-msg', '이름이 빈 아티스트가 있어요. 이름을 넣거나 삭제해 주세요.', 'err');
     btn.disabled = true;

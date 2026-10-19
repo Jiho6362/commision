@@ -30,9 +30,18 @@
   var works = C.works || [];
   var price = C.price || {};
   var collabs = C.collabs || [];
+  var shared = C.shared || {};
+  var models = shared.models || [];
   var options = price.options || [];
   var apply = C.apply || {};
   var fields = apply.fields || [];
+  // 판매 모델이 없으면 신청 양식에서도 공용 모델 관련 항목을 숨김
+  if (!models.length) {
+    var sharedLabel = shared.label || '공용 모델';
+    fields = fields.filter(function (f) { return f.key !== 'sharedModel'; }).map(function (f) {
+      return f.options ? Object.assign({}, f, { options: f.options.filter(function (o) { return o !== sharedLabel; }) }) : f;
+    });
+  }
 
   if (about.name) document.title = about.name + ' | 커미션 안내';
 
@@ -97,8 +106,7 @@
   }
 
   // 3. Price
-  html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
-    '<div class="table-wrap"><table class="table"><thead><tr><th></th>' +
+  var originalHtml = '<div class="table-wrap"><table class="table"><thead><tr><th></th>' +
     options.map(function (o) { return '<th class="serif">' + esc(o.name) + '</th>'; }).join('') +
     '</tr></thead><tbody>' +
     (price.rows || []).map(function (r) {
@@ -129,7 +137,29 @@
       : '') +
     ((price.notices || []).length
       ? '<ul class="notice">' + price.notices.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
-      : '') +
+      : '');
+
+  // 공용 모델(미리 만들어 둔 판매 모델): 있을 때만 탭으로 표시
+  var statusClass = function (st) { return st === '판매완료' ? 'sold' : st === '예약중' ? 'hold' : 'sale'; };
+  var sharedHtml = (shared.intro ? '<p class="shop-intro pre">' + esc(shared.intro) + '</p>' : '') +
+    '<div class="shop-grid">' + models.map(function (m, i) {
+      var img = (m.images || [])[0];
+      var id = youtubeId(m.youtube);
+      var thumb = img || (id ? 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' : '');
+      return '<button type="button" class="shop-card' + (m.status === '판매완료' ? ' is-sold' : '') + '" data-m="' + i + '">' +
+        '<span class="shop-img">' + (thumb ? '<img src="' + esc(thumb) + '" alt="" loading="lazy">' : '') +
+        (m.status ? '<span class="shop-status ' + statusClass(m.status) + '">' + esc(m.status) + '</span>' : '') + '</span>' +
+        '<span class="shop-body"><span class="shop-name serif">' + esc(m.name) + '</span>' +
+        '<span class="shop-price">' + esc(m.price) + '</span></span></button>';
+    }).join('') + '</div>';
+
+  html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
+    (models.length
+      ? '<div class="ptabs"><button type="button" class="ptab on" data-ptab="original">오리지널 모델</button>' +
+        '<button type="button" class="ptab" data-ptab="shared">' + esc(shared.label || '공용 모델') + '</button></div>' +
+        '<div class="ptab-panel" data-ptab="original">' + originalHtml + '</div>' +
+        '<div class="ptab-panel" data-ptab="shared" hidden>' + sharedHtml + '</div>'
+      : originalHtml) +
     '</section>';
 
   // 4. Apply (신청 양식): options 가 있으면 선택 버튼, 없으면 입력칸
@@ -350,6 +380,111 @@
     updateNav();
   }
 
+  // Price 탭 (오리지널 모델 / 공용 모델)
+  app.querySelectorAll('.ptab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var k = t.getAttribute('data-ptab');
+      app.querySelectorAll('.ptab').forEach(function (b) { b.classList.toggle('on', b === t); });
+      app.querySelectorAll('.ptab-panel').forEach(function (p) { p.hidden = p.getAttribute('data-ptab') !== k; });
+    });
+  });
+
+  // 공용 모델 상세 창: 왼쪽 사진/영상, 오른쪽 크레딧·가격·신청
+  var shop = document.getElementById('shop');
+  var shopVideo = document.getElementById('shop-video');
+  var shopModel = null;
+  var lastShopCard = null;
+
+  function shopShow(kind, src) {
+    var img = document.getElementById('shop-photo');
+    shop.querySelectorAll('.shop-tab').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-kind') === kind); });
+    if (kind === 'video') {
+      img.hidden = true;
+      document.getElementById('shop-video-wrap').hidden = false;
+      var id = youtubeId(shopModel.youtube);
+      if (shopVideo.getAttribute('data-id') !== id) {
+        shopVideo.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+        shopVideo.setAttribute('data-id', id);
+      }
+    } else {
+      document.getElementById('shop-video-wrap').hidden = true;
+      shopVideo.src = 'about:blank';
+      shopVideo.removeAttribute('data-id');
+      img.hidden = false;
+      img.src = src;
+      shop.querySelectorAll('.shop-thumbs img').forEach(function (t) { t.classList.toggle('on', t.getAttribute('src') === src); });
+    }
+  }
+
+  function openShop(card) {
+    var m = models[+card.getAttribute('data-m')];
+    var imgs = m.images || [];
+    var hasVideo = !!youtubeId(m.youtube);
+    shopModel = m;
+    lastShopCard = card;
+    var st = document.getElementById('shop-st');
+    st.textContent = m.status || '';
+    st.className = 'shop-status ' + statusClass(m.status);
+    document.getElementById('shop-name').textContent = m.name || '';
+    document.getElementById('shop-desc').textContent = m.description || '';
+    document.getElementById('shop-credit').textContent = m.credit || '';
+    document.getElementById('shop-price').textContent = m.price || '';
+    var btn = document.getElementById('shop-apply');
+    btn.disabled = m.status === '판매완료';
+    btn.textContent = m.status === '판매완료' ? '판매가 완료된 모델이에요' : '이 모델로 신청하기';
+    document.getElementById('shop-tabs').hidden = !(imgs.length && hasVideo);
+    shop.querySelector('.shop-tab[data-kind="photo"]').hidden = !imgs.length;
+    shop.querySelector('.shop-tab[data-kind="video"]').hidden = !hasVideo;
+    document.getElementById('shop-thumbs').innerHTML = imgs.length > 1
+      ? imgs.map(function (src) { return '<img src="' + esc(src) + '" alt="">'; }).join('') : '';
+    shop.hidden = false;
+    document.body.classList.add('lock');
+    placeNear(shop, shop.querySelector('.shop-box'), card);
+    if (imgs.length) shopShow('photo', imgs[0]); else if (hasVideo) shopShow('video');
+    shop.querySelector('.modal-close').focus();
+  }
+
+  function closeShop() {
+    if (!shop || shop.hidden) return;
+    shop.hidden = true;
+    shopVideo.src = 'about:blank';
+    shopVideo.removeAttribute('data-id');
+    document.body.classList.remove('lock');
+    if (lastShopCard) lastShopCard.focus();
+  }
+
+  if (shop) {
+    app.querySelectorAll('.shop-card').forEach(function (c) {
+      c.addEventListener('click', function () { openShop(c); });
+    });
+    shop.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeShop); });
+    shop.querySelectorAll('.shop-tab').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-kind');
+        shopShow(k, k === 'photo' ? (shopModel.images || [])[0] : null);
+      });
+    });
+    document.getElementById('shop-thumbs').addEventListener('click', function (e) {
+      if (e.target.tagName === 'IMG') shopShow('photo', e.target.getAttribute('src'));
+    });
+    // 신청하기: 신청 옵션에서 '공용 모델'을 고르고, 모델 이름 칸을 채운 뒤 양식으로 이동
+    document.getElementById('shop-apply').addEventListener('click', function () {
+      var label = shared.label || '공용 모델';
+      var opt = Array.prototype.filter.call(app.querySelectorAll('.apply-opt'), function (b) {
+        return b.getAttribute('data-v') === label;
+      })[0];
+      if (opt && !opt.classList.contains('on')) opt.click();
+      fields.forEach(function (f, i) {
+        if (f.key === 'sharedModel') {
+          var el = app.querySelector('.apply-input[data-f="' + i + '"]');
+          if (el) { el.value = shopModel.name || ''; el.dispatchEvent(new Event('input')); }
+        }
+      });
+      closeShop();
+      document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
   // 작업물 상세 창
   var modal = document.getElementById('modal');
   var video = document.getElementById('modal-video');
@@ -385,7 +520,7 @@
     el.addEventListener('click', close);
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { close(); closePop(); }
+    if (e.key === 'Escape') { close(); closePop(); closeShop(); }
   });
   }
 })();

@@ -426,17 +426,19 @@
     shop.querySelectorAll('.shop-thumbs img').forEach(function (t) { t.classList.toggle('on', t.getAttribute('src') === src); });
   }
 
-  // 영상 칸: 유튜브 우선(화질), 없으면 mp4 파일. 자동 재생하지 않고 누르면 재생
+  // 영상 칸: 유튜브 우선(화질), 없으면 mp4 파일. 소리 끈 채 자동으로 반복 재생 (소리는 직접 켬)
   function startShopVideo() {
     var id = youtubeId(shopModel.youtube);
     if (id) {
       document.getElementById('shop-video-wrap').hidden = false;
-      shopVideo.src = 'https://www.youtube.com/embed/' + id + '?rel=0';
+      shopVideo.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&loop=1&playlist=' + id + '&rel=0&playsinline=1';
       shopVideo.setAttribute('data-id', id);
     } else if (shopModel.video) {
       var file = document.getElementById('shop-file');
+      file.muted = true;
       file.src = shopModel.video;
       file.hidden = false;
+      file.play().catch(function () {});
     }
   }
 

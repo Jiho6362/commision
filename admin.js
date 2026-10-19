@@ -292,7 +292,7 @@
             (m.video ? '<span class="adm-help">' + esc(String(m.video).split('/').pop()) + '</span>' +
               '<button type="button" data-act="rmvideo" data-kind="models" data-i="' + i + '">영상 빼기</button>' : '') +
             '<label class="adm-file">' + (m.video ? '영상 바꾸기' : '+ 영상 올리기') + '<input type="file" accept="video/mp4" data-img="modelvideo" data-i="' + i + '"></label></div>' +
-            field('설명 (엔터로 줄바꿈)', base + 'description', m.description, 'textarea') +
+            field('옵션 (한 줄에 하나씩, 예: 표정 5종 / VBridger)', base + 'options', m.options, 'textarea') +
             field('크레딧 (엔터로 줄바꿈)', base + 'credit', m.credit, 'textarea') +
             '<label>사진</label><div class="adm-tools">' + (m.images || []).map(function (src, j) {
               return '<span class="adm-pic"><img src="' + esc(imgSrc(src)) + '" alt=""><button type="button" data-act="rmimg" data-kind="models" data-i="' + i + '" data-j="' + j + '" title="사진 빼기">×</button></span>';
@@ -372,7 +372,7 @@
       delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
-      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], description: '', credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], options: '', credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);

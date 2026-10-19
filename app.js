@@ -456,7 +456,9 @@
     st.textContent = m.status || '';
     st.className = 'shop-status ' + statusClass(m.status);
     document.getElementById('shop-name').textContent = m.name || '';
-    document.getElementById('shop-desc').textContent = m.description || '';
+    var opts = String(m.options || '').split('\n').map(function (t) { return t.trim(); }).filter(Boolean);
+    document.getElementById('shop-opts').innerHTML = opts.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    document.getElementById('shop-opt-wrap').hidden = !opts.length;
     document.getElementById('shop-credit').textContent = m.credit || '';
     document.getElementById('shop-price').textContent = m.price || '';
     var btn = document.getElementById('shop-apply');

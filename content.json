@@ -301,8 +301,8 @@
         "images": [
           "images/shared/sample1.jpg"
         ],
-        "description": "임시로 올린 샘플 모델이에요.",
-        "credit": "Illustrated by 108\nRigged by 4ki"
+        "credit": "Illustrated by 108\nRigged by 4ki",
+        "options": ""
       }
     ]
   }

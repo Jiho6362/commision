@@ -224,6 +224,7 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 .addons-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
 .addons-list span { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .addons-list b { color: var(--wine); font-weight: 700; white-space: nowrap; }
+.addons-extra { margin: 12px 0 8px; font-size: 13px; font-weight: 700; color: var(--wine); word-break: keep-all; }
 .notice { margin-top: 20px; font-size: 14px; color: var(--sub); padding-left: 18px; }
 .notice li::marker { color: var(--gold); }
 

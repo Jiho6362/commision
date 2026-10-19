@@ -148,7 +148,8 @@
         (price.addonNote ? '<span class="addons-note">' + esc(price.addonNote) + '</span>' : '') + '</div>' +
         '<ul class="addons-list">' + price.addons.map(function (a) {
           return '<li><span>' + esc(a.name) + '</span><b>' + esc(a.price) + '</b></li>';
-        }).join('') + '</ul></div>'
+        }).join('') + '</ul>' +
+        (price.addonExtra || []).map(function (t) { return '<p class="addons-extra">※ ' + esc(t) + '</p>'; }).join('') + '</div>'
       : '') +
     ((price.notices || []).length
       ? '<ul class="notice">' + price.notices.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'

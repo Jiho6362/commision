@@ -293,7 +293,7 @@
     "intro": "콜라보·공용 일러스트로 미리 만들어 둔 모델이에요. 마음에 드는 모델이 있으면 바로 신청할 수 있어요.",
     "models": [
       {
-        "name": "샘플 모델 1",
+        "name": "샘플 모델 A",
         "status": "판매중",
         "youtube": "",
         "video": "images/shared/sample1.mp4",
@@ -304,7 +304,7 @@
         "tiers": [
           {
             "type": "Premium",
-            "price": "가격 미정"
+            "price": "2,000,000"
           }
         ]
       }

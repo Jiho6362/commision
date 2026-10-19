@@ -276,7 +276,7 @@
       var sh = data.shared;
       h = '<div class="adm-item profile" style="grid-template-columns:1fr"><div class="adm-fields">' +
         field('공용 모델 탭 안내 문구', 'shared.intro', sh.intro, 'textarea') + '</div></div>' +
-        '<p class="adm-help" style="margin-top:14px">판매 모델이 하나라도 있으면 사이트 Price 에 \'공용 모델\' 탭이 생겨요. 사진은 여러 장 올릴 수 있고, 첫 번째 사진이 카드 썸네일이 돼요.</p>' +
+        '<p class="adm-help" style="margin-top:14px">판매 모델이 하나라도 있으면 사이트 Price 에 \'공용 모델\' 줄이 생겨요. 사진은 여러 장 올릴 수 있고, 첫 번째 사진이 카드 썸네일이 돼요.</p>' +
         '<button type="button" class="adm-btn ghost adm-add" data-act="add" data-kind="models">+ 판매 모델 추가</button>' +
         '<div class="adm-list" style="margin-top:12px">' + sh.models.map(function (m, i) {
           var first = (m.images || [])[0];

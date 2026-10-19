@@ -139,10 +139,17 @@
       ? '<ul class="notice">' + price.notices.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
       : '');
 
-  // 공용 모델(미리 만들어 둔 판매 모델): 있을 때만 탭으로 표시
+  // Price 소제목 (공용 모델 / 오리지널 모델)
+  function psub(label, title, intro) {
+    return '<div class="psub"><span class="psub-label">' + esc(label) + '</span>' +
+      '<h3 class="psub-title serif">' + esc(title) + '</h3>' +
+      (intro ? '<p class="psub-intro pre">' + esc(intro) + '</p>' : '') + '</div>';
+  }
+
+  // 공용 모델(미리 만들어 둔 판매 모델): 있을 때만 표시
   var statusClass = function (st) { return st === '판매완료' ? 'sold' : st === '예약중' ? 'hold' : 'sale'; };
-  var sharedHtml = (shared.intro ? '<p class="shop-intro pre">' + esc(shared.intro) + '</p>' : '') +
-    '<div class="shop-grid">' + models.map(function (m, i) {
+  var sharedHtml = '<div class="collab shop-row"><button type="button" class="collab-nav prev" aria-label="이전">‹</button>' +
+    '<div class="collab-track">' + models.map(function (m, i) {
       var img = (m.images || [])[0];
       var id = youtubeId(m.youtube);
       var thumb = img || (id ? 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' : '');
@@ -151,14 +158,12 @@
         (m.status ? '<span class="shop-status ' + statusClass(m.status) + '">' + esc(m.status) + '</span>' : '') + '</span>' +
         '<span class="shop-body"><span class="shop-name serif">' + esc(m.name) + '</span>' +
         '<span class="shop-price">' + esc(m.price) + '</span></span></button>';
-    }).join('') + '</div>';
+    }).join('') + '</div><button type="button" class="collab-nav next" aria-label="다음">›</button></div>';
 
   html += '<section class="section" id="price"><h2 class="title serif">Price</h2>' +
     (models.length
-      ? '<div class="ptabs"><button type="button" class="ptab on" data-ptab="original">오리지널 모델</button>' +
-        '<button type="button" class="ptab" data-ptab="shared">' + esc(shared.label || '공용 모델') + '</button></div>' +
-        '<div class="ptab-panel" data-ptab="original">' + originalHtml + '</div>' +
-        '<div class="ptab-panel" data-ptab="shared" hidden>' + sharedHtml + '</div>'
+      ? psub('READY-MADE', shared.label || '공용 모델', shared.intro) + sharedHtml +
+        psub('CUSTOM', price.label || '오리지널 모델', price.intro) + originalHtml
       : originalHtml) +
     '</section>';
 
@@ -378,11 +383,11 @@
   });
   showWorks();
 
-  // Collaboration 화살표: 한 화면만큼 넘기고, 끝에 닿으면 비활성
-  var track = app.querySelector('.collab-track');
-  if (track) {
-    var prev = app.querySelector('.collab-nav.prev');
-    var next = app.querySelector('.collab-nav.next');
+  // 옆으로 넘기는 줄(Collaboration, 공용 모델) 화살표: 한 화면만큼 넘기고, 끝에 닿으면 비활성
+  app.querySelectorAll('.collab').forEach(function (box) {
+    var track = box.querySelector('.collab-track');
+    var prev = box.querySelector('.collab-nav.prev');
+    var next = box.querySelector('.collab-nav.next');
     var updateNav = function () {
       var max = track.scrollWidth - track.clientWidth;
       prev.disabled = track.scrollLeft <= 2;
@@ -394,15 +399,6 @@
     track.addEventListener('scroll', updateNav);
     window.addEventListener('resize', updateNav);
     updateNav();
-  }
-
-  // Price 탭 (오리지널 모델 / 공용 모델)
-  app.querySelectorAll('.ptab').forEach(function (t) {
-    t.addEventListener('click', function () {
-      var k = t.getAttribute('data-ptab');
-      app.querySelectorAll('.ptab').forEach(function (b) { b.classList.toggle('on', b === t); });
-      app.querySelectorAll('.ptab-panel').forEach(function (p) { p.hidden = p.getAttribute('data-ptab') !== k; });
-    });
   });
 
   // 공용 모델 상세 창: 왼쪽 사진/영상, 오른쪽 크레딧·가격·신청

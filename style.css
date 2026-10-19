@@ -177,16 +177,15 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 .shop-blank .shop-img { background: var(--soft); display: flex; align-items: center; justify-content: center; }
 .shop-blank .shop-img span { font-size: 13px; color: var(--sub); }
 
-/* 공용 모델 상세 창 (작업물 창과 같은 반투명 스타일) */
-.shop-box { grid-template-columns: 1fr 300px; align-items: start; }
-.shop-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
-.shop-tabs[hidden], .shop-tab[hidden] { display: none; }
-.shop-tab { padding: 5px 16px; border: 1px solid rgba(255, 255, 255, .35); background: none; border-radius: 999px; color: rgba(255, 255, 255, .8); font-size: 13px; cursor: pointer; }
-.shop-tab.on { background: #fff; color: var(--wine-dark); border-color: #fff; }
-.shop-stage { background: rgba(0, 0, 0, .35); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 240px; }
-.shop-stage img { max-width: 100%; max-height: 62vh; object-fit: contain; }
-.shop-stage img[hidden], .shop-stage .video[hidden], .shop-stage video[hidden] { display: none; }
-.shop-stage video { display: block; width: 100%; max-height: 62vh; background: #000; }
+/* 공용 모델 상세 창: 가로로 긴 창에 사진 | 영상 | 정보 */
+.shop-box { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 270px; align-items: start; max-width: 1320px; }
+.shop-box.no-video, .shop-box.no-photo { grid-template-columns: minmax(0, 1fr) 270px; }
+.shop-box.no-video.no-photo { grid-template-columns: 1fr; }
+.shop-col[hidden] { display: none; }
+.shop-stage { height: min(58vh, 520px); background: rgba(0, 0, 0, .35); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.shop-stage img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.shop-stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+.shop-stage video[hidden], .shop-stage .video[hidden] { display: none; }
 .shop-stage .video { width: 100%; }
 .shop-thumbs { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .shop-thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: .55; border: 2px solid transparent; }
@@ -242,6 +241,8 @@ a.collab-card:hover .collab-link { color: var(--wine); }
   .collab-track { grid-auto-columns: calc((100% - 32px) / 3); }
   .modal-box { grid-template-columns: 1fr; gap: 16px; padding: 44px 16px 20px; }
   .shop-row .collab-track { grid-auto-columns: calc((100% - 16px) / 2); }
+  .shop-box, .shop-box.no-video, .shop-box.no-photo { grid-template-columns: 1fr; }
+  .shop-stage { height: auto; max-height: 55vh; }
 }
 @media (max-width: 560px) {
   .about { flex-direction: column; text-align: center; padding: 24px 16px; }

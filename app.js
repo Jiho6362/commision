@@ -420,29 +420,23 @@
     file.hidden = true;
   }
 
-  function shopShow(kind, src) {
-    var img = document.getElementById('shop-photo');
-    shop.querySelectorAll('.shop-tab').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-kind') === kind); });
-    if (kind === 'video') {
-      img.hidden = true;
-      var id = youtubeId(shopModel.youtube);
-      if (id) {   // 유튜브 링크가 있으면 유튜브 우선 (화질이 가장 좋음)
-        document.getElementById('shop-video-wrap').hidden = false;
-        if (shopVideo.getAttribute('data-id') !== id) {
-          shopVideo.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-          shopVideo.setAttribute('data-id', id);
-        }
-      } else {    // 유튜브가 없으면 직접 올린 mp4 파일 재생
-        var file = document.getElementById('shop-file');
-        if (file.getAttribute('src') !== shopModel.video) { file.src = shopModel.video; }
-        file.hidden = false;
-        file.play().catch(function () {});
-      }
-    } else {
-      stopShopVideo();
-      img.hidden = false;
-      img.src = src;
-      shop.querySelectorAll('.shop-thumbs img').forEach(function (t) { t.classList.toggle('on', t.getAttribute('src') === src); });
+  // 사진 칸: 큰 사진 바꾸기
+  function shopPhoto(src) {
+    document.getElementById('shop-photo').src = src;
+    shop.querySelectorAll('.shop-thumbs img').forEach(function (t) { t.classList.toggle('on', t.getAttribute('src') === src); });
+  }
+
+  // 영상 칸: 유튜브 우선(화질), 없으면 mp4 파일. 자동 재생하지 않고 누르면 재생
+  function startShopVideo() {
+    var id = youtubeId(shopModel.youtube);
+    if (id) {
+      document.getElementById('shop-video-wrap').hidden = false;
+      shopVideo.src = 'https://www.youtube.com/embed/' + id + '?rel=0';
+      shopVideo.setAttribute('data-id', id);
+    } else if (shopModel.video) {
+      var file = document.getElementById('shop-file');
+      file.src = shopModel.video;
+      file.hidden = false;
     }
   }
 
@@ -464,15 +458,18 @@
     var btn = document.getElementById('shop-apply');
     btn.disabled = m.status === '판매완료';
     btn.textContent = m.status === '판매완료' ? '판매가 완료된 모델이에요' : '이 모델로 신청하기';
-    document.getElementById('shop-tabs').hidden = !(imgs.length && hasVideo);
-    shop.querySelector('.shop-tab[data-kind="photo"]').hidden = !imgs.length;
-    shop.querySelector('.shop-tab[data-kind="video"]').hidden = !hasVideo;
+    var box = shop.querySelector('.shop-box');
+    box.classList.toggle('no-photo', !imgs.length);
+    box.classList.toggle('no-video', !hasVideo);
+    document.getElementById('shop-photo-col').hidden = !imgs.length;
+    document.getElementById('shop-video-col').hidden = !hasVideo;
     document.getElementById('shop-thumbs').innerHTML = imgs.length > 1
       ? imgs.map(function (src) { return '<img src="' + esc(src) + '" alt="">'; }).join('') : '';
     shop.hidden = false;
     document.body.classList.add('lock');
     placeNear(shop, shop.querySelector('.shop-box'), card);
-    if (imgs.length) shopShow('photo', imgs[0]); else if (hasVideo) shopShow('video');
+    if (imgs.length) shopPhoto(imgs[0]);
+    if (hasVideo) startShopVideo();
     shop.querySelector('.modal-close').focus();
   }
 
@@ -489,14 +486,8 @@
       c.addEventListener('click', function () { openShop(c); });
     });
     shop.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeShop); });
-    shop.querySelectorAll('.shop-tab').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var k = b.getAttribute('data-kind');
-        shopShow(k, k === 'photo' ? (shopModel.images || [])[0] : null);
-      });
-    });
     document.getElementById('shop-thumbs').addEventListener('click', function (e) {
-      if (e.target.tagName === 'IMG') shopShow('photo', e.target.getAttribute('src'));
+      if (e.target.tagName === 'IMG') shopPhoto(e.target.getAttribute('src'));
     });
     // 신청하기: 신청 옵션에서 '공용 모델'을 고르고, 모델 이름 칸을 채운 뒤 양식으로 이동
     document.getElementById('shop-apply').addEventListener('click', function () {

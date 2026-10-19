@@ -57,17 +57,15 @@
     <div class="modal-bg" data-close></div>
     <div class="modal-box shop-box" role="dialog" aria-modal="true" aria-labelledby="shop-name">
       <button type="button" class="modal-close" data-close aria-label="닫기">×</button>
-      <div class="shop-media">
-        <div class="shop-tabs" id="shop-tabs">
-          <button type="button" class="shop-tab on" data-kind="photo">사진</button>
-          <button type="button" class="shop-tab" data-kind="video">영상</button>
-        </div>
+      <div class="shop-col" id="shop-photo-col">
+        <div class="shop-stage"><img id="shop-photo" alt=""></div>
+        <div class="shop-thumbs" id="shop-thumbs"></div>
+      </div>
+      <div class="shop-col" id="shop-video-col">
         <div class="shop-stage">
-          <img id="shop-photo" alt="">
-          <video id="shop-file" controls playsinline loop preload="metadata" hidden></video>
+          <video id="shop-file" controls playsinline preload="metadata" hidden></video>
           <div class="video" id="shop-video-wrap" hidden><iframe id="shop-video" title="모델 영상" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
         </div>
-        <div class="shop-thumbs" id="shop-thumbs"></div>
       </div>
       <div class="detail">
         <span class="shop-status" id="shop-st"></span>

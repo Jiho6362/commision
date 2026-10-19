@@ -287,7 +287,11 @@
             '<div class="adm-row2">' + field('모델 이름', base + 'name', m.name) + field('가격', base + 'price', m.price) + '</div>' +
             '<div class="adm-row2"><label>판매 상태<select data-path="' + base + 'status">' +
             ['판매중', '예약중', '판매완료'].map(function (o) { return '<option' + (m.status === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
-            '</select></label>' + field('유튜브 주소 (선택)', base + 'youtube', m.youtube) + '</div>' +
+            '</select></label>' + field('유튜브 주소 (화질이 가장 좋아요, 있으면 우선 재생)', base + 'youtube', m.youtube) + '</div>' +
+            '<label>영상 파일 (mp4, 25MB 이하 · 유튜브 주소가 없을 때만 재생)</label><div class="adm-tools">' +
+            (m.video ? '<span class="adm-help">' + esc(String(m.video).split('/').pop()) + '</span>' +
+              '<button type="button" data-act="rmvideo" data-kind="models" data-i="' + i + '">영상 빼기</button>' : '') +
+            '<label class="adm-file">' + (m.video ? '영상 바꾸기' : '+ 영상 올리기') + '<input type="file" accept="video/mp4" data-img="modelvideo" data-i="' + i + '"></label></div>' +
             field('설명 (엔터로 줄바꿈)', base + 'description', m.description, 'textarea') +
             field('크레딧 (엔터로 줄바꿈)', base + 'credit', m.credit, 'textarea') +
             '<label>사진</label><div class="adm-tools">' + (m.images || []).map(function (src, j) {
@@ -359,13 +363,16 @@
       var name = kind === 'works' ? (list[i].title || '이 작업물') : kind === 'models' ? (list[i].name || '이 판매 모델') : (list[i].name || '이 아티스트');
       if (!confirm('"' + name + '"을(를) 삭제할까요? (저장해야 사이트에 반영돼요)')) return;
       list.splice(i, 1);
+    } else if (act === 'rmvideo') {
+      delete pending[list[i].video];
+      list[i].video = '';
     } else if (act === 'rmimg') {
       var removed = list[i].images.splice(+b.getAttribute('data-j'), 1)[0];
       delete pending[removed];   // 아직 안 올린 사진이면 올리지 않음
       delete previews[removed];
     } else if (act === 'add') {
       if (kind === 'works') list.unshift({ youtube: '', title: '', category: '', credit: 'Rigged by 4ki' });
-      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', images: [], description: '', credit: 'Rigged by 4ki' });
+      else if (kind === 'models') list.unshift({ name: '', price: '', status: '판매중', youtube: '', video: '', images: [], description: '', credit: 'Rigged by 4ki' });
       else list.push({ name: '', link: '', role: '', image: '' });
     } else return;
     setDirty(true);
@@ -403,6 +410,25 @@
     var kind = e.target.getAttribute('data-img');
     var file = e.target.files && e.target.files[0];
     if (!kind || !file) return;
+    if (kind === 'modelvideo') {
+      var mv = data.shared.models[+e.target.getAttribute('data-i')];
+      if (file.size > 25 * 1024 * 1024) {
+        alert('영상이 너무 커요 (' + Math.round(file.size / 1048576) + 'MB). 25MB 이하로 줄이거나 유튜브에 올려서 주소를 넣어 주세요.');
+        e.target.value = '';
+        return;
+      }
+      var fr = new FileReader();
+      fr.onload = function () {
+        var path = 'images/shared/' + Date.now() + '-' + (uploadSeq++) + '.mp4';
+        pending[path] = String(fr.result).split(',')[1];
+        if (mv.video) delete pending[mv.video];
+        mv.video = path;
+        setDirty(true);
+        render();
+      };
+      fr.readAsDataURL(file);
+      return;
+    }
     if (kind === 'model') {
       var m = data.shared.models[+e.target.getAttribute('data-i')];
       m.images = m.images || [];

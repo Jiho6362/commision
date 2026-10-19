@@ -291,6 +291,19 @@
   "shared": {
     "label": "공용 모델",
     "intro": "콜라보·공용 일러스트로 미리 만들어 둔 모델이에요. 마음에 드는 모델이 있으면 바로 신청할 수 있어요.",
-    "models": []
+    "models": [
+      {
+        "name": "샘플 모델 1",
+        "price": "가격 미정",
+        "status": "판매중",
+        "youtube": "",
+        "video": "images/shared/sample1.mp4",
+        "images": [
+          "images/shared/sample1.jpg"
+        ],
+        "description": "임시로 올린 샘플 모델이에요.",
+        "credit": "Illustrated by 108\nRigged by 4ki"
+      }
+    ]
   }
 }

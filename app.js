@@ -408,21 +408,38 @@
   var shopModel = null;
   var lastShopCard = null;
 
+  // 영상 멈추기 (유튜브, mp4 파일 둘 다)
+  function stopShopVideo() {
+    shopVideo.src = 'about:blank';
+    shopVideo.removeAttribute('data-id');
+    document.getElementById('shop-video-wrap').hidden = true;
+    var file = document.getElementById('shop-file');
+    file.pause();
+    file.removeAttribute('src');
+    file.load();
+    file.hidden = true;
+  }
+
   function shopShow(kind, src) {
     var img = document.getElementById('shop-photo');
     shop.querySelectorAll('.shop-tab').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-kind') === kind); });
     if (kind === 'video') {
       img.hidden = true;
-      document.getElementById('shop-video-wrap').hidden = false;
       var id = youtubeId(shopModel.youtube);
-      if (shopVideo.getAttribute('data-id') !== id) {
-        shopVideo.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-        shopVideo.setAttribute('data-id', id);
+      if (id) {   // 유튜브 링크가 있으면 유튜브 우선 (화질이 가장 좋음)
+        document.getElementById('shop-video-wrap').hidden = false;
+        if (shopVideo.getAttribute('data-id') !== id) {
+          shopVideo.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+          shopVideo.setAttribute('data-id', id);
+        }
+      } else {    // 유튜브가 없으면 직접 올린 mp4 파일 재생
+        var file = document.getElementById('shop-file');
+        if (file.getAttribute('src') !== shopModel.video) { file.src = shopModel.video; }
+        file.hidden = false;
+        file.play().catch(function () {});
       }
     } else {
-      document.getElementById('shop-video-wrap').hidden = true;
-      shopVideo.src = 'about:blank';
-      shopVideo.removeAttribute('data-id');
+      stopShopVideo();
       img.hidden = false;
       img.src = src;
       shop.querySelectorAll('.shop-thumbs img').forEach(function (t) { t.classList.toggle('on', t.getAttribute('src') === src); });
@@ -432,7 +449,7 @@
   function openShop(card) {
     var m = models[+card.getAttribute('data-m')];
     var imgs = m.images || [];
-    var hasVideo = !!youtubeId(m.youtube);
+    var hasVideo = !!(m.video || youtubeId(m.youtube));
     shopModel = m;
     lastShopCard = card;
     var st = document.getElementById('shop-st');
@@ -460,8 +477,7 @@
   function closeShop() {
     if (!shop || shop.hidden) return;
     shop.hidden = true;
-    shopVideo.src = 'about:blank';
-    shopVideo.removeAttribute('data-id');
+    stopShopVideo();
     document.body.classList.remove('lock');
     if (lastShopCard) lastShopCard.focus();
   }

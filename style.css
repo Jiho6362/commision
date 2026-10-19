@@ -159,6 +159,9 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 
 /* 3. Price - 공용 모델 카드 */
 .shop-row .collab-track { grid-auto-columns: calc((100% - 32px) / 3); }
+/* 공용 모델 줄은 다 들어가도 화살표를 항상 표시 (넘길 게 없으면 흐리게) */
+.collab.shop-row.fits { padding: 0 44px; }
+.collab.shop-row.fits .collab-nav { display: block; }
 .shop-card { position: relative; display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--bg); cursor: pointer; text-align: left; box-shadow: 0 2px 10px rgba(74, 22, 33, .06); transition: transform .25s, box-shadow .25s, border-color .25s; }
 .shop-card:hover, .shop-card:focus-visible { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 12px 28px rgba(74, 22, 33, .14); outline: none; }
 .shop-img { position: relative; display: block; aspect-ratio: 4 / 5; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); }
@@ -252,7 +255,6 @@ a.collab-card:hover .collab-link { color: var(--wine); }
   .addons-list { grid-template-columns: repeat(2, 1fr); }
   .collab-track { grid-auto-columns: calc((100% - 32px) / 3); }
   .modal-box { grid-template-columns: 1fr; gap: 16px; padding: 44px 16px 20px; }
-  .shop-row .collab-track { grid-auto-columns: calc((100% - 16px) / 2); }
   .shop-media { grid-template-columns: 1fr; }
   .shop-info { grid-template-columns: 1fr; gap: 14px; }
   .shop-stage.photo { max-height: 55vh; aspect-ratio: auto; height: 55vh; }
@@ -271,6 +273,8 @@ a.collab-card:hover .collab-link { color: var(--wine); }
 /* 휴대폰: 카드를 한 줄에 하나씩 (아트머그 PC 본문처럼 좁은 틀에서는 2열 유지) */
 @media (max-width: 460px) {
   .grid { grid-template-columns: 1fr; }
+  .shop-row .collab-track { grid-auto-columns: calc((100% - 16px) / 2); }
+  .collab.shop-row.fits { padding: 0 36px; }
   .plans { grid-template-columns: 1fr; }
 }
 /* 터치 화면(마우스 없음)에서는 제목을 항상 표시 */

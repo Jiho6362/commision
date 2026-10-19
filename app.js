@@ -187,15 +187,31 @@
   function isTallFrame() {
     return document.documentElement.classList.contains('in-frame') && window.innerHeight > screen.height;
   }
+  // 아트머그 화면에서 지금 보이는 부분의 정중앙에 창을 놓음.
+  // 틀 밖(아트머그) 스크롤 위치는 직접 알 수 없어서, 보이는 영역 감지(IntersectionObserver)로 알아냄
   function placeNear(overlay, box, anchorEl) {
-    if (!isTallFrame()) { overlay.classList.remove('near'); box.style.marginTop = ''; return; }
+    if (!isTallFrame()) { overlay.classList.remove('near'); box.style.marginTop = ''; box.style.maxHeight = ''; return; }
     var docH = document.documentElement.scrollHeight;
-    var r = anchorEl.getBoundingClientRect();
-    var y = r.top + window.scrollY + r.height / 2;
     overlay.classList.add('near');
     overlay.style.height = docH + 'px';
-    var top = Math.max(16, Math.min(y - box.offsetHeight / 2, docH - box.offsetHeight - 16));
-    box.style.marginTop = top + 'px';
+    box.style.visibility = 'hidden';
+    var put = function (top, height) {   // 보이는 영역 [top, top+height] 의 가운데로
+      box.style.maxHeight = Math.max(240, height - 32) + 'px';
+      var y = Math.max(16, Math.min(top + (height - box.offsetHeight) / 2, docH - box.offsetHeight - 16));
+      box.style.marginTop = y + 'px';
+      box.style.visibility = '';
+    };
+    var fallback = function () {   // 감지가 안 되면 누른 위치 기준
+      var r = anchorEl.getBoundingClientRect();
+      put(r.top + window.scrollY + r.height / 2 - 300, 600);
+    };
+    if (!('IntersectionObserver' in window)) return fallback();
+    var io = new IntersectionObserver(function (entries) {
+      io.disconnect();
+      var v = entries[0].intersectionRect;
+      if (v.height > 0) put(v.top + window.scrollY, v.height); else fallback();
+    });
+    io.observe(document.documentElement);
   }
   // 메뉴 링크: 길게 들어가 있을 때도 아트머그 페이지가 해당 위치로 스크롤되도록
   document.querySelectorAll('.nav a').forEach(function (a) {

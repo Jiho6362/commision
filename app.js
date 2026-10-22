@@ -65,21 +65,6 @@
     '<div class="tags">' + (about.tags || []).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
     '</div></div></section>';
 
-  // Notice (공지사항): 왼쪽 번호 목록, 오른쪽 사용 및 결제 등 묶음
-  var notice = C.notice || {};
-  if ((notice.items || []).length || (notice.groups || []).length) {
-    html += '<section class="section" id="notice"><h2 class="title serif">Notice</h2><div class="notice-wrap">' +
-      '<div class="notice-main"><ol class="notice-list">' + (notice.items || []).map(function (it, i) {
-        return '<li><span class="notice-no serif">' + (i < 9 ? '0' : '') + (i + 1) + '</span><div><p>' + esc(it.text) + '</p>' +
-          (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></li>';
-      }).join('') + '</ol>' +
-      (notice.footer ? '<p class="notice-foot">' + esc(notice.footer) + '</p>' : '') + '</div>' +
-      '<div class="notice-side">' + (notice.groups || []).map(function (g) {
-        return '<div class="notice-group"><b>' + esc(g.title) + '</b><ul>' +
-          (g.items || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
-      }).join('') + '</div></div></section>';
-  }
-
   // 2. Portfolio
   html += '<section class="section" id="portfolio"><h2 class="title serif">Portfolio</h2>';
   if (cats.length > 1) {
@@ -102,6 +87,21 @@
       '<span class="card-info"><span class="badge">' + esc(w.category) + '</span>' +
       '<span class="card-title">' + esc(w.title) + '</span></span></button>';
   }).join('') + '</div><div class="pager" id="pager"></div></section>';
+
+  // Notice (공지사항): 왼쪽 번호 목록, 오른쪽 사용 및 결제 등 묶음
+  var notice = C.notice || {};
+  if ((notice.items || []).length || (notice.groups || []).length) {
+    html += '<section class="section" id="notice"><h2 class="title serif">Notice</h2><div class="notice-wrap">' +
+      '<div class="notice-main"><ol class="notice-list">' + (notice.items || []).map(function (it, i) {
+        return '<li><span class="notice-no serif">' + (i < 9 ? '0' : '') + (i + 1) + '</span><div><p>' + esc(it.text) + '</p>' +
+          (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></li>';
+      }).join('') + '</ol>' +
+      (notice.footer ? '<p class="notice-foot">' + esc(notice.footer) + '</p>' : '') + '</div>' +
+      '<div class="notice-side">' + (notice.groups || []).map(function (g) {
+        return '<div class="notice-group"><b>' + esc(g.title) + '</b><ul>' +
+          (g.items || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div></div></section>';
+  }
 
   // Collaboration: 옆으로 넘기는 카드
   if (collabs.length) {
